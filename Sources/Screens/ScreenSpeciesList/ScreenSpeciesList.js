@@ -34,6 +34,10 @@ class SpecieScreen extends React.Component {
         };
     }
 
+    static navigationOptions = {
+        title: 'Liste des espèces',
+      };
+
     render() {
 
         const items = [
@@ -69,14 +73,12 @@ class SpecieScreen extends React.Component {
                 specieProfilePicture: 'https://cdn.radiofrance.fr/s3/cruiser-production/2017/09/25a99227-8943-4e0b-8168-12f8edbad24d/640_gettyimages-622474436.jpg',
                 specieId: '1'
             },
-             ]
+        ]
 
 
         return (
             <ScrollView>
                 <View style={styles.container}>
-                    <PlaceHolderHeader />
-                    <NavBar text={'PAGE DES' + ' ' + this.state.animalSpecieName.toUpperCase()} />
                     <View style={styles.SpecieIntro}>
                         <Image
                             style={{ width: this.state.width, height: (this.state.height / 2.5) }}
@@ -84,26 +86,30 @@ class SpecieScreen extends React.Component {
                         />
                     </View>
                     <View style={styles.SpecieIntro}>
-                            <GridView
-                                itemDimension={150}
-                                items={item}
-                                style={styles.gridView}
-                                renderItem={item => (
-                                    <TouchableOpacity>
-                                        <View style={[styles.itemContainer]}>
-                                        <View style={{ borderWidth: 0}}>
-                                            <Image
-                                                style={{ width: 150, height: 130, display: "flex", alignItems: "center" }}
-                                                source={{ uri: item.specieProfilePicture}}
-                                            />
-                                        </View>
-                                        <View style={{display: "flex", justifyContent: "center" }}>
-                                            <LightTitle text={item.specieName.toUpperCase()} size="tiny"/>
-                                        </View>
-                                        </View>
+                        <GridView
+                            itemDimension={150}
+                            items={item}
+                            style={styles.gridView}
+                            renderItem={item => (
+
+                                    <TouchableOpacity onPress={() => {
+                                        this.props.navigation.navigate('ScreenSpecie', {
+                                            itemId: 86,
+                                        })}}>
+                                            <View style={[styles.itemContainer]}>
+                                                <View style={{ borderWidth: 0 }}>
+                                                    <Image
+                                                        style={{ width: 150, height: 130, display: "flex", alignItems: "center" }}
+                                                        source={{ uri: item.specieProfilePicture }}
+                                                    />
+                                                </View>
+                                                <View style={{ display: "flex", justifyContent: "center" }}>
+                                                    <LightTitle text={item.specieName.toUpperCase()} size="tiny" />
+                                                </View>
+                                            </View>
                                     </TouchableOpacity>
-                                )}
-                            />
+                    )}
+                />
                     </View>
                 </View>
             </ScrollView>
@@ -126,23 +132,23 @@ const styles = StyleSheet.create({
         paddingTop: 25,
         flex: 1,
         backgroundColor: colors.BACKGROUND_COLOR,
-        
-      },
-      itemContainer: {
+
+    },
+    itemContainer: {
         justifyContent: 'flex-end',
         padding: 10,
         height: 160,
-      },
-      itemName: {
+    },
+    itemName: {
         fontSize: 16,
         color: '#fff',
         fontWeight: '600',
-      },
-      itemCode: {
+    },
+    itemCode: {
         fontWeight: '600',
         fontSize: 12,
         color: '#fff',
-      },
+    },
 });
 
 export default SpecieScreen

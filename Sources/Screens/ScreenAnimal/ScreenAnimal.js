@@ -1,5 +1,7 @@
 import React from 'react';
 import { StyleSheet, Text, View, Image, ScrollView, Dimensions } from 'react-native';
+import { withMappedNavigationProps } from 'react-navigation-props-mapper'
+
 import { config } from '../../Config/Config'
 import PlaceHolderHeader from '../../Components/PlaceHolderHeader/PlaceHolderHeader';
 import NavBar from '../../Components/NavBar/NavBar';
@@ -13,14 +15,22 @@ import { colors } from '../../Theme/Theme';
 import HeartIcon from '../../Icons/Heart/HeartIcon';
 import { TextTool } from '../../Theme/style';
 
-class SpecieScreen extends React.Component {
+
+class ScreenAnimal extends React.Component {
+    static navigationOptions = ({ navigation }) => {
+        const { params } = navigation.state;
+        return {
+          title: params ? params.otherParam : 'A Nested Details Screen',
+        }
+      };
+
     constructor(props) {
         super(props);
         this.state = {
             width: Dimensions.get('window').width,
             height: Dimensions.get('window').height,
             animalId: '',
-            animalName: 'Ken le surivant',
+            animalName: 'hop',
             animalSpecieName: 'Panda Roux',
             animalDescription: "Le Petit panda, Panda roux ou Panda éclatant (Ailurus fulgens) est un mammifère de la famille des Ailuridae. Il a un régime alimentaire omnivore, essentiellement végétarien, bien qu'appartenant à l'ordre des Carnivores comme les ratons laveurs ou les ours avec lesquels on l'a parfois classé avec le Panda géant.",
             animalAge: '',
@@ -33,12 +43,12 @@ class SpecieScreen extends React.Component {
             animalPhoto4: 'https://www.thoiry.net/sites/thoiry.net/files/2018-02/panda%20roux%202.jpg',
         };
     }
+    
     render() {
+    /* 2. Read the params from the navigation state */
         return (
             <ScrollView>
                 <View style={styles.container}>
-                    <PlaceHolderHeader />
-                    <NavBar text={'PAGE DES' + ' ' + this.state.animalSpecieName.toUpperCase()} />
                     <View style={styles.SpecieIntro}>
                         <Image
                             style={{ width: this.state.width, height: (this.state.height / 2.5) }}
@@ -57,7 +67,7 @@ class SpecieScreen extends React.Component {
                                 </View>
 
                                 <View style={{ justifyContent: "center", alignItems: "center" }}>
-                                    <Title text="1439" size="medium-noMargin" />
+                                    <Title text="82" size="medium-noMargin" />
                                     <LightTitle text="amis" />
                                 </View>
 
@@ -103,6 +113,7 @@ class SpecieScreen extends React.Component {
     }
 }
 
+
 const styles = StyleSheet.create({
     container: {
         flex: 1,
@@ -128,5 +139,5 @@ const styles = StyleSheet.create({
     },
 });
 
-export default SpecieScreen
+export default ScreenAnimal
 

@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View, Image, ScrollView, Dimensions } from 'react-native';
+import { StyleSheet, Text, View, Image, ScrollView, Dimensions, TouchableOpacity } from 'react-native';
 import PlaceHolderHeader from '../../Components/PlaceHolderHeader/PlaceHolderHeader';
 import NavBar from '../../Components/NavBar/NavBar';
 import LargeSeparator from '../../Components/LargeSeparator/LargeSeparator';
@@ -46,8 +46,6 @@ class SpecieScreen extends React.Component {
         return (
             <ScrollView>
                 <View style={styles.container}>
-                    <PlaceHolderHeader />
-                    <NavBar text='Liste des espèces' />
                     <View style={styles.SpecieIntro}>
                         <Image
                             style={{ width: 100, height: 100, borderRadius: 50, marginTop: 15, marginLeft: 35 }}
@@ -104,13 +102,19 @@ class SpecieScreen extends React.Component {
                                 <LightTitle text="Femelle 4 ans" size="big" />
                             </View>
                         </View>
-
                         <View style={styles.AnimalItem}>
-                            <BigThumbnail uri="http://www.msnbc.com/sites/msnbc/files/styles/ratio--3-2--1_5x-1245x830/public/article-teasers/rtr28tfi_copy.jpg?itok=92rvnUkk" />
+                            <TouchableOpacity onPress={() => {
+                                this.props.navigation.navigate('ScreenAnimal', {
+                                    itemId: 86,
+                                })
+                            }}>
+                                <BigThumbnail uri="http://www.msnbc.com/sites/msnbc/files/styles/ratio--3-2--1_5x-1245x830/public/article-teasers/rtr28tfi_copy.jpg?itok=92rvnUkk" />
+                            </TouchableOpacity>
                             <View style={{ marginLeft: 24 }}>
                                 <Title text="Junior" size="big" />
                                 <LightTitle text="Mâle 6 mois" size="big" />
                             </View>
+
                         </View>
                     </View>
 
