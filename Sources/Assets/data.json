@@ -1,0 +1,95 @@
+{
+    "speciesList": [
+        {
+            "specieName": "Panda roux",
+            "specieProfilePicture": "http://www.club-panda.fr/wp-content/uploads/2015/07/quizz-8.jpg",
+            "specieId": 1
+        },
+        {
+            "specieName": "Girafe",
+            "specieProfilePicture": "https://www.geo.fr/var/geo/storage/images/media/images/girafe/2410391-1-fre-FR/girafe.jpg",
+            "specieId": 2
+        },
+        {
+            "specieName": "poney",
+            "specieProfilePicture": "http://data.photos-animaux.com/photos/601/6010/600968.jpg",
+            "specieId": 3
+        },
+        {
+            "specieName": "zebre",
+            "specieProfilePicture:": "https://rivistanatura.com/wp-content/uploads/2015/01/zebra-770x470.jpg",
+            "specieId": 4
+        },
+        {
+            "specieName": "cachalot oh oh oh oh oh",
+            "specieProfilePicture:": "https://cdn.radiofrance.fr/s3/cruiser-production/2017/09/25a99227-8943-4e0b-8168-12f8edbad24d/640_gettyimages-622474436.jpg",
+            "specieId": 5
+        }
+    ],
+    "speciesData": [
+        {
+            "SpecieId": 1,
+            "SpecieName": "Panda Roux",
+            "SpecieLatinName": "Ailurus fulgens",
+            "SpecieEnglishName": "",
+            "SpecieClass": "",
+            "SpecieOrder": "",
+            "SpecieFamilly": "",
+            "SpecieIUCNClassification": "",
+            "SpecieDescription": "Le Petit panda, Panda roux ou Panda éclatant (Ailurus fulgens) est un mammifère de la famille des Ailuridae. Il a un régime alimentaire omnivore, essentiellement végétarien, bien qu'appartenant à l'ordre des Carnivores comme les ratons laveurs ou les ours avec lesquels on l'a parfois classé avec le Panda géant.",
+            "SpecieGestation": "",
+            "SpecieWeight": "",
+            "SpecieLifeExpectancy": "",
+            "SpecieFood": [],
+            "SpecieProfilePicture": "http://www.club-panda.fr/wp-content/uploads/2015/07/quizz-8.jpg",
+            "SpeciePhotos": [
+                {
+                    "photoId": 1,
+                    "photoURL": "https://www.thoiry.net/sites/thoiry.net/files/2018-02/grand%20sourir%20panda.jpg"
+                },
+                {
+                    "photoId": 2,
+                    "photoURL": "https://s3.eu-central-1.amazonaws.com/zooparc/assets/stars/panda_roux_1504.jpg"
+                },
+                {
+                    "photoId": 3,
+                    "photoURL": "https://img3.telestar.fr/var/telestar/storage/images/3/0/7/8/3078326/le-panda-roux-espece-danger-dans-doumentaire-petit-panda-himalaya-sur-chaine-arte_width1024.jpg"
+                },
+                {
+                    "photoId": 4,
+                    "photoURL": "https://www.thoiry.net/sites/thoiry.net/files/2018-02/panda%20roux%202.jpg"
+                }
+            ]
+        },
+        {
+            "SpecieId": 2,
+            "SpecieName": "Girafe",
+            "SpecieLatinName": "Ailurus fulgens",
+            "SpecieEnglishName": "",
+            "SpecieClass": "",
+            "SpecieOrder": "",
+            "SpecieFamilly": "",
+            "SpecieIUCNClassification": "",
+            "SpecieDescription": "La Girafe (Giraffa camelopardalis) est une espèce de mammifères ongulés artiodactyles, du groupe des ruminants, vivant dans les savanes africaines et répandue du Tchad jusqu'en Afrique du Sud. Son nom commun vient de l'arabe زرافة, zarāfah, mais l'animal fut anciennement appelé camélopard, du latin camelopardus1, contraction de camelus (chameau) en raison du long cou et de pardus (léopard) en raison des taches recouvrant son corps. Après des millions d'années d'évolution, la girafe a acquis une anatomie unique avec un cou particulièrement allongé qui lui permet notamment de brouter la cime des arbres.",
+            "SpecieGestation": "",
+            "SpecieWeight": "",
+            "SpecieLifeExpectancy": "",
+            "SpecieFood": [],
+            "SpecieProfilePicture": "https://www.geo.fr/var/geo/storage/images/media/images/girafe/2410391-1-fre-FR/girafe.jpg",
+            "SpeciePhotos": [
+                {
+                    "photoId": 1,
+                    "photoURL": "https://fr.cdn.v5.futura-sciences.com/buildsv6/images/mediumoriginal/f/7/e/f7e7f6683b_80140_album-faune-juvenile5.jpg"
+                },
+                {
+                    "photoId": 2,
+                    "photoURL": "http://tnregneanimal.tableau-noir.net/images/girafe.jpg"
+                },
+                {
+                    "photoId": 3,
+                    "photoURL": "https://media.istockphoto.com/photos/portrait-of-masai-giraffe-picture-id645123580?k=6&m=645123580&s=612x612&w=0&h=OY8Nrt9fIWf23RmsR8XJio2NQB1YER2r-mgHHO9O33I="
+                }
+            ]
+        }
+    ]
+}

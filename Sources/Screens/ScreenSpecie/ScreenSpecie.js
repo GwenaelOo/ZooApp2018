@@ -14,6 +14,9 @@ import { colors } from '../../Theme/Theme';
 import HeartIcon from '../../Icons/Heart/HeartIcon';
 import { TextTool } from '../../Theme/style';
 import BlogPost from '../../Components/BlogPost/BlogPost';
+import Gallerie from '../../Components/Img/Gallerie/Gallerie';
+
+const data = require('../../Assets/data.json');
 
 class SpecieScreen extends React.Component {
     constructor(props) {
@@ -22,25 +25,57 @@ class SpecieScreen extends React.Component {
             width: Dimensions.get('window').width,
             height: Dimensions.get('window').height,
             SpecieId: '',
-            SpecieName: 'Panda Roux',
-            SpecieLatinName: 'Ailurus fulgens',
+            SpecieName: '',
+            SpecieLatinName: '',
             SpecieEnglishName: '',
             SpecieClass: '',
             SpecieOrder: '',
             SpecieFamilly: '',
             SpecieIUCNClassification: '',
-            SpecieDescription: "Le Petit panda, Panda roux ou Panda éclatant (Ailurus fulgens) est un mammifère de la famille des Ailuridae. Il a un régime alimentaire omnivore, essentiellement végétarien, bien qu'appartenant à l'ordre des Carnivores comme les ratons laveurs ou les ours avec lesquels on l'a parfois classé avec le Panda géant.",
+            SpecieDescription: '',
             SpecieGestation: '',
             SpecieWeight: '',
             SpecieLifeExpectancy: '',
             SpecieFood: [],
-            SpeciePhotoProfil: 'http://www.club-panda.fr/wp-content/uploads/2015/07/quizz-8.jpg',
+            SpecieProfilePicture: '',
             SpeciePhoto1: 'https://www.thoiry.net/sites/thoiry.net/files/2018-02/grand%20sourir%20panda.jpg',
             SpeciePhoto2: 'https://s3.eu-central-1.amazonaws.com/zooparc/assets/stars/panda_roux_1504.jpg',
             SpeciePhoto3: 'https://img3.telestar.fr/var/telestar/storage/images/3/0/7/8/3078326/le-panda-roux-espece-danger-dans-doumentaire-petit-panda-himalaya-sur-chaine-arte_width1024.jpg',
             SpeciePhoto4: 'https://www.thoiry.net/sites/thoiry.net/files/2018-02/panda%20roux%202.jpg',
+            SpeciePhotos: {}
         };
     }
+
+    fetchSpecieData(specieId){
+
+        console.log(specieId)
+
+        let specieData = data.speciesData.find(item => item.SpecieId === specieId)
+
+        console.log(specieData)
+
+        this.setState({
+            SpecieId: specieData.SpecieId,
+            SpecieName: specieData.SpecieName,
+            SpecieLatinName: specieData.SpecieLatinName,
+            SpecieEnglishName: specieData.SpecieEnglishName,
+            SpecieClass: specieData.SpecieClass,
+            SpecieOrder: specieData.SpecieOrder,
+            SpecieFamilly: specieData.SpecieFamilly,
+            SpecieIUCNClassification: specieData.SpecieIUCNClassification,
+            SpecieDescription: specieData.SpecieDescription,
+            SpecieGestation: specieData.SpecieGestation,
+            SpecieWeight: specieData.SpecieWeight,
+            SpecieLifeExpectancy: specieData.SpecieLifeExpectancy,
+            SpecieFood: specieData.SpecieFood,
+            SpecieProfilePicture: specieData.SpecieProfilePicture,
+            SpeciePhotos: specieData.SpeciePhotos,
+
+        })   
+    }
+    componentDidMount() {
+        this.fetchSpecieData(this.props.navigation.state.params.itemId)
+      }
 
     render() {
         return (
@@ -49,7 +84,7 @@ class SpecieScreen extends React.Component {
                     <View style={styles.SpecieIntro}>
                         <Image
                             style={{ width: 100, height: 100, borderRadius: 50, marginTop: 15, marginLeft: 35 }}
-                            source={{ uri: 'https://upload.wikimedia.org/wikipedia/commons/1/1a/Face_of_a_red_panda_%28Ailurus_fulgens%29_-_20080702.jpg' }}
+                            source={{ uri: this.state.SpecieProfilePicture }}
                         />
                         <View style={{ marginLeft: 24 }}>
                             <Title text={this.state.SpecieName} />
@@ -59,31 +94,17 @@ class SpecieScreen extends React.Component {
                     </View>
 
                     <LargeSeparator text="A propos" />
-
+                    
                     <Text style={[TextTool.PARAGRAPH, { marginHorizontal: 20 }]}>
-                        {this.state.SpecieDescription}
+                        {this.state.SpecieDescription} 
+                        {this.state.SpecieId} 
                     </Text>
 
                     <BasicButton text="En savoir plus" width="150" />
 
                     <LargeSeparator text="Gallerie" />
-                    <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
-                        <View style={styles.SpecieGallery}>
-                            <View style={{ marginLeft: 5 }}>
-                                <SquareImg uri={this.state.SpeciePhoto1} />
-                            </View>
-                            <View style={{ marginLeft: 5 }}>
-                                <SquareImg uri={this.state.SpeciePhoto2} />
-                            </View>
-                            <View style={{ marginLeft: 5 }}>
-                                <SquareImg uri={this.state.SpeciePhoto3} />
-                            </View>
-                            <View style={{ marginLeft: 5 }}>
-                                <SquareImg uri={this.state.SpeciePhoto4} />
-                            </View>
-
-                        </View>
-                    </ScrollView>
+                    <Gallerie photos={this.state.SpeciePhotos} />
+                
                     <LargeSeparator text="Nos animaux" />
 
                     <View style={styles.AnimalsList}>
