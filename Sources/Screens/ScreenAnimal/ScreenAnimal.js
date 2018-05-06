@@ -1,5 +1,6 @@
 import React from 'react';
 import { StyleSheet, Text, View, Image, ScrollView, Dimensions } from 'react-native';
+import { config } from '../../Config/Config'
 import PlaceHolderHeader from '../../Components/PlaceHolderHeader/PlaceHolderHeader';
 import NavBar from '../../Components/NavBar/NavBar';
 import LargeSeparator from '../../Components/LargeSeparator/LargeSeparator';
@@ -32,34 +33,6 @@ class SpecieScreen extends React.Component {
             animalPhoto4: 'https://www.thoiry.net/sites/thoiry.net/files/2018-02/panda%20roux%202.jpg',
         };
     }
-
-    readAnimalFromDatabase(animalId) {
-        var self = this
-        // Fonction magique que je ne comprend pas 
-
-        let docRef = firebase.firestore()
-            .collection(userData.zooName + '-animals')
-            .doc(animalId);
-
-        docRef.get().then(function (snapshot) {
-
-            let data = snapshot.data()
-            console.log(data);
-            self.setState({
-                animalId: data.animalId,
-                animalName: data.animalName,
-                animalPhotoProfil: data.animalPhotoProfil,
-                animalPhoto1: data.animalPhoto1,
-                animalPhoto2: data.animalPhoto2,
-                animalPhoto3: data.animalPhoto3,
-                animalPhoto4: data.animalPhoto4,
-            });
-        }, function (error) {
-            // The Promise was rejected.
-            console.error(error);
-        });
-    }
-
     render() {
         return (
             <ScrollView>
@@ -90,8 +63,8 @@ class SpecieScreen extends React.Component {
 
 
                                 <View style={{ justifyContent: "center", alignItems: "center" }}>
-                                    <Title text="218" size="medium-noMargin" />
-                                    <LightTitle text="trucs" />
+                                    <Title text="4" size="medium-noMargin" />
+                                    <LightTitle text="enfants" />
                                 </View>
                             </View>
                         </View>

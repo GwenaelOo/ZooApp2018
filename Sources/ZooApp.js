@@ -1,12 +1,11 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-import Dashboard from './Screens/Dashboard/Dashboard'
-
 
 //import ActiveScreen from './Screens/ScreenAnimal/ScreenAnimal';
-import ActiveScreen from './Screens/ScreenSpecie/ScreenSpecie';
+//import ActiveScreen from './Screens/ScreenSpecie/ScreenSpecie';
 //import ActiveScreen from './Screens/ScreenList/ScreenList';
-//import ActiveScreen from './Screens/ScreenSpeciesList/ScreenSpeciesList';
+import ActiveScreen from './Screens/ScreenSpeciesList/ScreenSpeciesList';
+//import ActiveScreen from './Screens/TestDoubleColonne/TestDoubleColonne';
 
 export default class ZooApp extends React.Component {
   render() {
