@@ -46,7 +46,7 @@ class SpecieScreen extends React.Component {
         };
     }
 
-    fetchSpecieData(specieId){
+    fetchSpecieData(specieId) {
 
         console.log(specieId)
 
@@ -71,11 +71,11 @@ class SpecieScreen extends React.Component {
             SpecieProfilePicture: specieData.SpecieProfilePicture,
             SpeciePhotos: specieData.SpeciePhotos,
 
-        })   
+        })
     }
     componentDidMount() {
         this.fetchSpecieData(this.props.navigation.state.params.itemId)
-      }
+    }
 
     render() {
         return (
@@ -94,17 +94,18 @@ class SpecieScreen extends React.Component {
                     </View>
 
                     <LargeSeparator text="A propos" />
-                    
+
                     <Text style={[TextTool.PARAGRAPH, { marginHorizontal: 20 }]}>
-                        {this.state.SpecieDescription} 
-                        {this.state.SpecieId} 
+                        {this.state.SpecieDescription}
+                        {this.state.SpecieId}
                     </Text>
 
                     <BasicButton text="En savoir plus" width="150" />
 
                     <LargeSeparator text="Gallerie" />
+                    
                     <Gallerie photos={this.state.SpeciePhotos} />
-                
+
                     <LargeSeparator text="Nos animaux" />
 
                     <View style={styles.AnimalsList}>

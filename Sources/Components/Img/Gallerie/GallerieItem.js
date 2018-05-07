@@ -1,12 +1,16 @@
 import React from 'react';
 import { StyleSheet, Text, View, Image, TouchableOpacity, ScrollView } from 'react-native';
-import SquareImg from '../SquareImg/SquareImg'
 
 class Gallerie extends React.Component {
     render() {
         return (
-            <View style={{ marginLeft: 5 }}> 
-                <SquareImg uri={this.props.photo.photoURL} /> })
+            <View style={{ marginLeft: 5 }}>
+                <TouchableOpacity activeOpacity={0.5} delayPressIn={75}>
+                    <Image
+                        style={{ width: 150, height: 150 }}
+                        source={{ uri: this.props.photo.photoURL} }
+                    />
+                </TouchableOpacity>
             </View>
         );
     }

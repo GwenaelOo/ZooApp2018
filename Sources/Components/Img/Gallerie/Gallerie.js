@@ -31,8 +31,6 @@ class Gallerie extends React.Component {
                     }
                 </View>
             </ScrollView>
-
-
         );
     }
 }
