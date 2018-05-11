@@ -13,7 +13,7 @@ import HeartIcon from '../../Icons/Heart/HeartIcon';
 import { TextTool } from '../../Theme/style';
 
 
-class SpecieScreen extends React.Component {
+class ServicesList extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -97,5 +97,5 @@ const styles = StyleSheet.create({
     },
 });
 
-export default SpecieScreen
+export default ServicesList
 

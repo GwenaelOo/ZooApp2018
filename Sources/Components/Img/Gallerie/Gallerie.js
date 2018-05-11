@@ -1,15 +1,14 @@
 import React from 'react';
-import { StyleSheet, Text, View, Image, TouchableOpacity, ScrollView } from 'react-native';
+import { StyleSheet, Text, View, Image, TouchableOpacity, ScrollView, Button } from 'react-native';
 import SquareImg from '../SquareImg/SquareImg'
-import GallerieItem from './GallerieItem'
-
+import GalleryItem from './GallerieItemWithNavigation'
 
 class Gallerie extends React.Component {
+    constructor(props) {
+        super(props);
+    }
     render() {
-
         let PhotoPropsList = this.props.photos
-        console.log("avant traitement")
-        console.log(PhotoPropsList)
 
         const PhotoListToDisplay = [];
         for (let photo in PhotoPropsList) {
@@ -19,15 +18,12 @@ class Gallerie extends React.Component {
             };
             PhotoListToDisplay.push(PhotoData);
         }
-
-        console.log("apres traitement")
-        console.log(PhotoListToDisplay)
-
         return (
+            
             <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
                 <View style={styles.SpecieGallery}>
                     {
-                        PhotoListToDisplay.map(function (photo) { return <GallerieItem photo={photo} />; })
+                        PhotoListToDisplay.map(function (photoItem) { return <GalleryItem photo={photoItem} HandleSelectedItem={this.HandleSelected} />; }, this)
                     }
                 </View>
             </ScrollView>

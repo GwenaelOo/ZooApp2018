@@ -15,6 +15,8 @@ import HeartIcon from '../../Icons/Heart/HeartIcon';
 import { TextTool } from '../../Theme/style';
 import BlogPost from '../../Components/BlogPost/BlogPost';
 import Gallerie from '../../Components/Img/Gallerie/Gallerie';
+import AnimalListRoundItem from '../../Components/AnimalView/AnimalListRound/AnimalListRoundItem';
+import AnimalListRound from '../../Components/AnimalView/AnimalListRound/AnimalListRound';
 
 const data = require('../../Assets/data.json');
 
@@ -42,7 +44,8 @@ class SpecieScreen extends React.Component {
             SpeciePhoto2: 'https://s3.eu-central-1.amazonaws.com/zooparc/assets/stars/panda_roux_1504.jpg',
             SpeciePhoto3: 'https://img3.telestar.fr/var/telestar/storage/images/3/0/7/8/3078326/le-panda-roux-espece-danger-dans-doumentaire-petit-panda-himalaya-sur-chaine-arte_width1024.jpg',
             SpeciePhoto4: 'https://www.thoiry.net/sites/thoiry.net/files/2018-02/panda%20roux%202.jpg',
-            SpeciePhotos: {}
+            SpeciePhotos: {},
+            SpecieAnimals: {}
         };
     }
 
@@ -70,6 +73,7 @@ class SpecieScreen extends React.Component {
             SpecieFood: specieData.SpecieFood,
             SpecieProfilePicture: specieData.SpecieProfilePicture,
             SpeciePhotos: specieData.SpeciePhotos,
+            SpecieAnimals: specieData.SpecieAnimals,
 
         })
     }
@@ -103,12 +107,14 @@ class SpecieScreen extends React.Component {
                     <BasicButton text="En savoir plus" width="150" />
 
                     <LargeSeparator text="Gallerie" />
-                    
-                    <Gallerie photos={this.state.SpeciePhotos} />
+
+                    <Gallerie photos={this.state.SpeciePhotos}/>
 
                     <LargeSeparator text="Nos animaux" />
 
-                    <View style={styles.AnimalsList}>
+                    <AnimalListRound animalsOfThisSpecie={this.state.SpecieAnimals} />
+
+                    {/* <View style={styles.AnimalsList}>
                         <View style={styles.AnimalItem}>
                             <BigThumbnail uri="https://s3.eu-central-1.amazonaws.com/zooparc/assets/stars/panda_roux_1_600.jpg" />
                             <View style={{ marginLeft: 24 }}>
@@ -116,29 +122,7 @@ class SpecieScreen extends React.Component {
                                 <LightTitle text="Mâle 3 ans" size="big" />
                             </View>
                         </View>
-
-                        <View style={styles.AnimalItem}>
-                            <BigThumbnail uri="https://s3.eu-central-1.amazonaws.com/zooparc/assets/stars/panda_roux_1_600.jpg" />
-                            <View style={{ marginLeft: 24 }}>
-                                <Title text="Barbie" size="big" />
-                                <LightTitle text="Femelle 4 ans" size="big" />
-                            </View>
-                        </View>
-                        <View style={styles.AnimalItem}>
-                            <TouchableOpacity onPress={() => {
-                                this.props.navigation.navigate('ScreenAnimal', {
-                                    itemId: 86,
-                                })
-                            }}>
-                                <BigThumbnail uri="http://www.msnbc.com/sites/msnbc/files/styles/ratio--3-2--1_5x-1245x830/public/article-teasers/rtr28tfi_copy.jpg?itok=92rvnUkk" />
-                            </TouchableOpacity>
-                            <View style={{ marginLeft: 24 }}>
-                                <Title text="Junior" size="big" />
-                                <LightTitle text="Mâle 6 mois" size="big" />
-                            </View>
-
-                        </View>
-                    </View>
+                    </View> */}
 
                     <LargeSeparator text="Actualité de l'enclos" />
                     <BlogPost width={this.state.width} />

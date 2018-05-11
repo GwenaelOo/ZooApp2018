@@ -1,39 +1,31 @@
 import React from 'react';
 import { StyleSheet, Text, View, Image, TouchableOpacity, ScrollView } from 'react-native';
-import SquareImg from '../SquareImg/SquareImg'
-import GallerieItem from './GallerieItem'
+import AnimalListRoundItem from './AnimalListRoundItem';
 
 
 class AnimalListRound extends React.Component {
     render() {
 
-        let PhotoPropsList = this.props.photos
-        console.log("avant traitement")
-        console.log(PhotoPropsList)
+        let animalsOfThisSpecie = this.props.animalsOfThisSpecie
 
-        const PhotoListToDisplay = [];
-        for (let photo in PhotoPropsList) {
-            let PhotoData = {
-                photoId: PhotoPropsList[photo].photoId,
-                photoURL: PhotoPropsList[photo].photoURL,
-                key: i
-
+        const animalsOfThisSpecieArray = [];
+        for (let animal in animalsOfThisSpecie) {
+            let animalData = {
+                animalId: animalsOfThisSpecie[animal].animalId,
+                photoURL: animalsOfThisSpecie[animal].photoURL,
+                animalName: animalsOfThisSpecie[animal].animalName,
+                animalSex: animalsOfThisSpecie[animal].animalSex,
+                animalAge: animalsOfThisSpecie[animal].animalAge,
             };
-            PhotoListToDisplay.push(PhotoData);
+            animalsOfThisSpecieArray.push(animalData);
         }
 
-        console.log("apres traitement")
-        console.log(PhotoListToDisplay)
-
         return (
-            <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
-                <View style={styles.SpecieGallery}>
-                    {
-                        PhotoListToDisplay.map(function (photo) { return <GallerieItem photo={photo} />; })
-                    }
-                </View>
-            </ScrollView>
-
+            <View style={styles.AnimalsList}>
+                {
+                    animalsOfThisSpecieArray.map(function (animal) { return <AnimalListRoundItem animal={animal} />; })
+                }
+            </View>
 
         );
     }
@@ -41,16 +33,15 @@ class AnimalListRound extends React.Component {
 
 
 const styles = StyleSheet.create({
-    SpecieGallery: {
+    AnimalsList: {
         display: "flex",
-        flexDirection: "row",
-        justifyContent: "space-between",
+        justifyContent: "flex-start",
         width: "100%",
         alignItems: "center",
-
-    }
+        marginHorizontal: 25
+    },
 });
 
 
-export default Gallerie
+export default AnimalListRound
 

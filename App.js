@@ -3,12 +3,11 @@ import { StyleSheet, Text, View, Button } from 'react-native';
 import { StackNavigator } from 'react-navigation';
 import ZooApp from './Sources/ZooApp'
 
-
 import ScreenAnimal from './Sources/Screens/ScreenAnimal/ScreenAnimal'
 import ScreenSpeciesList from './Sources/Screens/ScreenSpeciesList/ScreenSpeciesList'
 import ScreenList from './Sources/Screens/ScreenList/ScreenList'
 import ScreenSpecie from './Sources/Screens/ScreenSpecie/ScreenSpecie'
-
+import ModalScreen from './Sources/Screens/Modal/Modal';
 
 class HomeScreen extends React.Component {
   static navigationOptions = {
@@ -17,7 +16,7 @@ class HomeScreen extends React.Component {
   render() {
     return (
       <View style={{ flex: 1, alignItems: 'center', justifyContent: 'space-around' }}>
-      
+
         <Button
           title="Aller à la page espece"
           onPress={() => {
@@ -25,9 +24,9 @@ class HomeScreen extends React.Component {
             });
           }}
         >
-       
+
         </Button>
-         <Button
+        <Button
           title="Aller à la page espece"
           onPress={() => {
             this.props.navigation.navigate('ScreenSpecie', {
@@ -48,12 +47,16 @@ class HomeScreen extends React.Component {
             });
           }}
         />
+        <Button
+          onPress={() => this.props.navigation.navigate('MyModal')}
+          title="Info"
+        />
       </View>
     );
   }
 }
 
-const createStackNavigator = () => StackNavigator({
+const Navigator = StackNavigator({
   Home: {
     screen: HomeScreen
   },
@@ -84,12 +87,30 @@ const createStackNavigator = () => StackNavigator({
   }
 );
 
+const ModalNavigator = StackNavigator({
+    Main: {
+      screen: Navigator,
+    },
+    MyModal: {
+      screen: ModalScreen,
+    },
+  },
+  {
+    mode: 'modal',
+    headerMode: 'none',
+  }
+);
+
+
 export default class App extends React.Component {
   render() {
-    const Navigator = createStackNavigator();
-    return <Navigator />;
+    return <ModalNavigator />;
   }
 }
+
+
+
+
 
 
 

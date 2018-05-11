@@ -23,6 +23,7 @@
     "firebase": "^4.13.1",
     "react": "16.3.1",
     "react-native": "~0.55.2",
+    "react-native-image-view": "^2.0.4",
     "react-native-photo-grid": "0.0.2",
     "react-native-square-grid": "^1.0.4",
     "react-native-super-grid": "^2.3.1",
