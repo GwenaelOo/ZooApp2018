@@ -27,7 +27,6 @@ class SpecieScreen extends React.Component {
         return (
             <ScrollView>
                 <View style={styles.container}>
-                    <PlaceHolderHeader />
                     <NavBar text='Liste des espèces' />
                     <View style={styles.SpecieIntro}>
                         <Image

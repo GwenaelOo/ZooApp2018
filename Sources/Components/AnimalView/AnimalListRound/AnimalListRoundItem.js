@@ -9,11 +9,12 @@ import { withNavigation } from 'react-navigation';
 class AnimalListRoundItem extends React.Component {
     render() {
         return (
+        <View>
             <TouchableOpacity onPress={() => {
                 this.props.navigation.navigate('ScreenAnimal', {
                     itemId: this.props.animal.animalId,
                 })
-            }}> */}
+            }}>
             <View style={styles.AnimalItem}>
 
                     <BigThumbnail uri={this.props.animal.photoURL} />
@@ -24,11 +25,10 @@ class AnimalListRoundItem extends React.Component {
 
                 </View>
             </TouchableOpacity>
-
+        </View>
         );
     }
 }
-
 
 const styles = StyleSheet.create({
     AnimalItem: {

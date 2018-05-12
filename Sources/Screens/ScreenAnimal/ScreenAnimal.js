@@ -40,9 +40,8 @@ class ScreenAnimal extends React.Component {
     fetchSpecieData(animalId) {
 
         let specieId = 1
-
-        let specieData = data.speciesData.find(item => item.SpecieId === specieId)
-        let animalData = specieData.SpecieAnimals.find(item => item.animalId === animalId)
+        let specieData = data.speciesData.find(item => item.specieId === specieId)
+        let animalData = specieData.specieAnimals.find(item => item.animalId === animalId)
 
         console.log(animalData.animalPhotos)
 

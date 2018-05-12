@@ -12,8 +12,24 @@ import { colors } from '../../Theme/Theme';
 import HeartIcon from '../../Icons/Heart/HeartIcon';
 import { TextTool } from '../../Theme/style';
 import GridView from 'react-native-super-grid';
+import config from '../../Config/Config'
 
-const data = require('../../Assets/data.json');
+import * as firebase from 'firebase';
+
+
+// FIREBASE STUFF
+
+const firebaseConfig = config.firebaseConfig
+
+firebase.initializeApp(firebaseConfig);
+
+// Get a reference to the database service
+var database = firebase.database();
+
+// FIREBASE STUFF 
+
+
+const localData = require('../../Assets/data.json');
 
 class SpecieScreen extends React.Component {
     constructor(props) {
@@ -21,19 +37,42 @@ class SpecieScreen extends React.Component {
         this.state = {
             width: Dimensions.get('window').width,
             height: Dimensions.get('window').height,
-            speciesList: data.speciesList
-            
+            speciesList: localData.speciesData,
         };
     }
 
     static navigationOptions = {
         title: 'Liste des espèces',
-      };
+    };
 
+    fetchSpeciesRemoteData() {
+        var ref = firebase.database().ref('speciesData/');
+        ref.once('value')
+
+            .then(result => this.setState({
+                remoteData: result.val()
+            }))
+
+            .then(result => this.mergeRemoteAndLocalData(this.state.remoteData));
+    }
+
+    mergeRemoteAndLocalData = (remoteData) => {
+        this.setState({
+            speciesList: remoteData
+        })
+    }
+
+    init() {
+        this.fetchSpeciesRemoteData()
+    }
+
+    componentWillMount() {
+        this.init()
+
+    }
     render() {
 
-        const item = this.state.speciesList
-
+        let item = this.state.speciesList
 
         return (
             <ScrollView>
@@ -50,25 +89,25 @@ class SpecieScreen extends React.Component {
                             items={item}
                             style={styles.gridView}
                             renderItem={item => (
-
-                                    <TouchableOpacity onPress={() => {
-                                        this.props.navigation.navigate('ScreenSpecie', {
-                                            itemId: item.specieId,
-                                        })}}>
-                                            <View style={[styles.itemContainer]}>
-                                                <View style={{ borderWidth: 0 }}>
-                                                    <Image
-                                                        style={{ width: 150, height: 130, display: "flex", alignItems: "center" }}
-                                                        source={{ uri: item.specieProfilePicture }}
-                                                    />
-                                                </View>
-                                                <View style={{ display: "flex", justifyContent: "center" }}>
-                                                    <LightTitle text={item.specieName.toUpperCase()} size="tiny" />
-                                                </View>
-                                            </View>
-                                    </TouchableOpacity>
-                    )}
-                />
+                                <TouchableOpacity onPress={() => {
+                                    this.props.navigation.navigate('ScreenSpecie', {
+                                        itemId: item.specieId,
+                                    })
+                                }}>
+                                    <View style={[styles.itemContainer]}>
+                                        <View style={{ borderWidth: 0 }}>
+                                            <Image
+                                                style={{ width: 150, height: 130, display: "flex", alignItems: "center" }}
+                                                source={{ uri: item.specieProfilePicture }}
+                                            />
+                                        </View>
+                                        <View style={{ display: "flex", justifyContent: "center" }}>
+                                            <LightTitle text={item.specieName.toUpperCase()} size="tiny" />
+                                        </View>
+                                    </View>
+                                </TouchableOpacity>
+                            )}
+                        />
                     </View>
                 </View>
             </ScrollView>

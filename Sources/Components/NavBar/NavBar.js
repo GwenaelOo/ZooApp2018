@@ -5,7 +5,6 @@ class NavBar extends React.Component {
   render() {
     return (
       <View style={styles.NavBar}>
-   
         <Text style={styles.TextStyle}>{this.props.text}</Text>
       </View>
     );

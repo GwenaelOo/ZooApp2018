@@ -5,15 +5,27 @@ import ZooApp from './Sources/ZooApp'
 
 import ScreenAnimal from './Sources/Screens/ScreenAnimal/ScreenAnimal'
 import ScreenSpeciesList from './Sources/Screens/ScreenSpeciesList/ScreenSpeciesList'
-import ScreenList from './Sources/Screens/ScreenList/ScreenList'
+import ScreenEventsList from './Sources/Screens/ScreenEventsList/ScreenEventsList'
+import ScreenServicesList from './Sources/Screens/ScreenServicesList/ScreenServicesList'
+import ScreenAnimationsList from './Sources/Screens/ScreenAnimationsList/ScreenAnimationsList'
 import ScreenSpecie from './Sources/Screens/ScreenSpecie/ScreenSpecie'
 import ModalScreen from './Sources/Screens/Modal/Modal';
+
+
 
 class HomeScreen extends React.Component {
   static navigationOptions = {
     title: 'Dashboard',
   };
+  constructor(props) {
+    super(props);
+    this.state = {
+      speciesList: []
+    };
+  }
+
   render() {
+    console.log(this.state.speciesList)
     return (
       <View style={{ flex: 1, alignItems: 'center', justifyContent: 'space-around' }}>
 
@@ -23,27 +35,25 @@ class HomeScreen extends React.Component {
             this.props.navigation.navigate('ScreenSpeciesList', {
             });
           }}
-        >
-
-        </Button>
+        />
         <Button
-          title="Aller à la page espece"
+          title="Aller à la page Liste animations"
           onPress={() => {
-            this.props.navigation.navigate('ScreenSpecie', {
+            this.props.navigation.navigate('ScreenAnimationsList', {
             });
           }}
         />
         <Button
-          title="Aller à la page animal"
+          title="Aller à la page Liste evenements"
           onPress={() => {
-            this.props.navigation.navigate('ScreenAnimal', {
+            this.props.navigation.navigate('ScreenEventsList', {
             });
           }}
         />
         <Button
-          title="Aller à la page List"
+          title="Aller à la page List services"
           onPress={() => {
-            this.props.navigation.navigate('ScreenList', {
+            this.props.navigation.navigate('ScreenServicesList', {
             });
           }}
         />
@@ -66,8 +76,14 @@ const Navigator = StackNavigator({
   ScreenSpeciesList: {
     screen: ScreenSpeciesList
   },
-  ScreenList: {
-    screen: ScreenList
+  ScreenAnimationsList: {
+    screen: ScreenAnimationsList
+  },
+  ScreenEventsList: {
+    screen: ScreenEventsList
+  },
+  ScreenServicesList: {
+    screen: ScreenServicesList
   },
   ScreenSpecie: {
     screen: ScreenSpecie
@@ -88,13 +104,13 @@ const Navigator = StackNavigator({
 );
 
 const ModalNavigator = StackNavigator({
-    Main: {
-      screen: Navigator,
-    },
-    MyModal: {
-      screen: ModalScreen,
-    },
+  Main: {
+    screen: Navigator,
   },
+  MyModal: {
+    screen: ModalScreen,
+  },
+},
   {
     mode: 'modal',
     headerMode: 'none',

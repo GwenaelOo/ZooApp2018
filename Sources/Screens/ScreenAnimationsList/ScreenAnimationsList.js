@@ -28,7 +28,6 @@ class EventsList extends React.Component {
                 <View style={styles.container}>
                 </View>
                 <View style={styles.container}>
-                    <NavBar text='Liste des espèces' />
                     <View style={styles.restaurantList}>
                         <View style={styles.restaurantItem}>
                              <View style={styles.restaurantItemTitle}>

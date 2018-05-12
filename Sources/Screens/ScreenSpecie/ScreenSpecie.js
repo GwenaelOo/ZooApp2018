@@ -18,7 +18,27 @@ import Gallerie from '../../Components/Img/Gallerie/Gallerie';
 import AnimalListRoundItem from '../../Components/AnimalView/AnimalListRound/AnimalListRoundItem';
 import AnimalListRound from '../../Components/AnimalView/AnimalListRound/AnimalListRound';
 
-const data = require('../../Assets/data.json');
+import * as firebase from 'firebase';
+
+const localData = require('../../Assets/data.json');
+
+// FIREBASE STUFF
+
+// const firebaseConfig = {
+//   apiKey: "AIzaSyCCgViEwbs3Ie4sRbWBc9FDmRZJls7lXhg",
+//   authDomain: "akongo-zoo-manager-preprod.firebaseapp.com",
+//   databaseURL: "https://akongo-zoo-manager-preprod.firebaseio.com",
+//   storageBucket: "akongo-zoo-manager-preprod.appspot.com",
+
+// };
+
+// firebase.initializeApp(firebaseConfig);
+
+// // Get a reference to the database service
+// var database = firebase.database();
+
+// FIREBASE STUFF 
+
 
 class SpecieScreen extends React.Component {
     constructor(props) {
@@ -26,73 +46,73 @@ class SpecieScreen extends React.Component {
         this.state = {
             width: Dimensions.get('window').width,
             height: Dimensions.get('window').height,
-            SpecieId: '',
-            SpecieName: '',
-            SpecieLatinName: '',
-            SpecieEnglishName: '',
-            SpecieClass: '',
-            SpecieOrder: '',
-            SpecieFamilly: '',
-            SpecieIUCNClassification: '',
-            SpecieDescription: '',
-            SpecieGestation: '',
-            SpecieWeight: '',
-            SpecieLifeExpectancy: '',
-            SpecieFood: [],
-            SpecieProfilePicture: '',
-            SpeciePhoto1: 'https://www.thoiry.net/sites/thoiry.net/files/2018-02/grand%20sourir%20panda.jpg',
-            SpeciePhoto2: 'https://s3.eu-central-1.amazonaws.com/zooparc/assets/stars/panda_roux_1504.jpg',
-            SpeciePhoto3: 'https://img3.telestar.fr/var/telestar/storage/images/3/0/7/8/3078326/le-panda-roux-espece-danger-dans-doumentaire-petit-panda-himalaya-sur-chaine-arte_width1024.jpg',
-            SpeciePhoto4: 'https://www.thoiry.net/sites/thoiry.net/files/2018-02/panda%20roux%202.jpg',
-            SpeciePhotos: {},
-            SpecieAnimals: {}
+            specieId: '',
+            specieName: '',
+            specieLatinName: '',
+            specieEnglishName: '',
+            specieClass: '',
+            specieOrder: '',
+            specieFamilly: '',
+            specieIUCNClassification: '',
+            specieDescription: '',
+            specieGestation: '',
+            specieWeight: '',
+            specieLifeExpectancy: '',
+            specieFood: [],
+            specieProfilePicture: '',
+            speciePhoto1: 'https://www.thoiry.net/sites/thoiry.net/files/2018-02/grand%20sourir%20panda.jpg',
+            speciePhoto2: 'https://s3.eu-central-1.amazonaws.com/zooparc/assets/stars/panda_roux_1504.jpg',
+            speciePhoto3: 'https://img3.telestar.fr/var/telestar/storage/images/3/0/7/8/3078326/le-panda-roux-espece-danger-dans-doumentaire-petit-panda-himalaya-sur-chaine-arte_width1024.jpg',
+            speciePhoto4: 'https://www.thoiry.net/sites/thoiry.net/files/2018-02/panda%20roux%202.jpg',
+            speciePhotos: {},
+            specieAnimals: {}
         };
     }
 
-    fetchSpecieData(specieId) {
+    fetchSpecieLocalData(specieId) {
 
         console.log(specieId)
 
-        let specieData = data.speciesData.find(item => item.SpecieId === specieId)
+        let specieData = localData.speciesData.find(item => item.specieId === specieId)
 
         console.log(specieData)
 
         this.setState({
-            SpecieId: specieData.SpecieId,
-            SpecieName: specieData.SpecieName,
-            SpecieLatinName: specieData.SpecieLatinName,
-            SpecieEnglishName: specieData.SpecieEnglishName,
-            SpecieClass: specieData.SpecieClass,
-            SpecieOrder: specieData.SpecieOrder,
-            SpecieFamilly: specieData.SpecieFamilly,
-            SpecieIUCNClassification: specieData.SpecieIUCNClassification,
-            SpecieDescription: specieData.SpecieDescription,
-            SpecieGestation: specieData.SpecieGestation,
-            SpecieWeight: specieData.SpecieWeight,
-            SpecieLifeExpectancy: specieData.SpecieLifeExpectancy,
-            SpecieFood: specieData.SpecieFood,
-            SpecieProfilePicture: specieData.SpecieProfilePicture,
-            SpeciePhotos: specieData.SpeciePhotos,
-            SpecieAnimals: specieData.SpecieAnimals,
+            specieId: specieData.specieId,
+            specieName: specieData.specieName,
+            specieLatinName: specieData.specieLatinName,
+            specieEnglishName: specieData.specieEnglishName,
+            specieClass: specieData.specieClass,
+            specieOrder: specieData.specieOrder,
+            specieFamilly: specieData.specieFamilly,
+            specieIUCNClassification: specieData.specieIUCNClassification,
+            specieDescription: specieData.specieDescription,
+            specieGestation: specieData.specieGestation,
+            specieWeight: specieData.specieWeight,
+            specieLifeExpectancy: specieData.specieLifeExpectancy,
+            specieFood: specieData.specieFood,
+            specieProfilePicture: specieData.specieProfilePicture,
+            speciePhotos: specieData.speciePhotos,
+            specieAnimals: specieData.specieAnimals,
 
         })
     }
     componentDidMount() {
-        this.fetchSpecieData(this.props.navigation.state.params.itemId)
+        this.fetchSpecieLocalData(this.props.navigation.state.params.itemId)
     }
 
     render() {
         return (
             <ScrollView>
                 <View style={styles.container}>
-                    <View style={styles.SpecieIntro}>
+                    <View style={styles.specieIntro}>
                         <Image
                             style={{ width: 100, height: 100, borderRadius: 50, marginTop: 15, marginLeft: 35 }}
-                            source={{ uri: this.state.SpecieProfilePicture }}
+                            source={{ uri: this.state.specieProfilePicture }}
                         />
                         <View style={{ marginLeft: 24 }}>
-                            <Title text={this.state.SpecieName} />
-                            <LightTitle text={this.state.SpecieLatinName} />
+                            <Title text={this.state.specieName} />
+                            <LightTitle text={this.state.specieLatinName} />
                         </View>
 
                     </View>
@@ -100,31 +120,22 @@ class SpecieScreen extends React.Component {
                     <LargeSeparator text="A propos" />
 
                     <Text style={[TextTool.PARAGRAPH, { marginHorizontal: 20 }]}>
-                        {this.state.SpecieDescription}
-                        {this.state.SpecieId}
+                        {this.state.specieDescription}
+                        {this.state.specieId}
                     </Text>
 
                     <BasicButton text="En savoir plus" width="150" />
 
                     <LargeSeparator text="Gallerie" />
 
-                    <Gallerie photos={this.state.SpeciePhotos}/>
+                    <Gallerie photos={this.state.speciePhotos}/>
 
                     <LargeSeparator text="Nos animaux" />
 
-                    <AnimalListRound animalsOfThisSpecie={this.state.SpecieAnimals} />
-
-                    {/* <View style={styles.AnimalsList}>
-                        <View style={styles.AnimalItem}>
-                            <BigThumbnail uri="https://s3.eu-central-1.amazonaws.com/zooparc/assets/stars/panda_roux_1_600.jpg" />
-                            <View style={{ marginLeft: 24 }}>
-                                <Title text="Kendo" size="big" />
-                                <LightTitle text="Mâle 3 ans" size="big" />
-                            </View>
-                        </View>
-                    </View> */}
+                    <AnimalListRound animalsOfThisSpecie={this.state.specieAnimals} />
 
                     <LargeSeparator text="Actualité de l'enclos" />
+
                     <BlogPost width={this.state.width} />
 
                 </View>
