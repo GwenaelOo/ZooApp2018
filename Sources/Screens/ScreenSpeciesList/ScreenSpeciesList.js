@@ -12,14 +12,12 @@ import { colors } from '../../Theme/Theme';
 import HeartIcon from '../../Icons/Heart/HeartIcon';
 import { TextTool } from '../../Theme/style';
 import GridView from 'react-native-super-grid';
-import config from '../../Config/Config'
+import {config, firebaseConfig} from '../../Config/Config'
 
 import * as firebase from 'firebase';
 
 
 // FIREBASE STUFF
-
-const firebaseConfig = config.firebaseConfig
 
 firebase.initializeApp(firebaseConfig);
 
@@ -28,8 +26,8 @@ var database = firebase.database();
 
 // FIREBASE STUFF 
 
-
-const localData = require('../../Assets/data.json');
+const rawData = require('../../Assets/data.json');
+const localData = rawData[config.zooId]
 
 class SpecieScreen extends React.Component {
     constructor(props) {
@@ -46,29 +44,26 @@ class SpecieScreen extends React.Component {
     };
 
     fetchSpeciesRemoteData() {
-        var ref = firebase.database().ref('speciesData/');
+        var ref = firebase.database().ref('AkongoFakeZoo/speciesData/');
         ref.once('value')
 
             .then(result => this.setState({
                 remoteData: result.val()
-            }))
+            })
+        )
 
             .then(result => this.mergeRemoteAndLocalData(this.state.remoteData));
     }
 
     mergeRemoteAndLocalData = (remoteData) => {
+        console.log(remoteData)
         this.setState({
             speciesList: remoteData
         })
     }
 
-    init() {
-        this.fetchSpeciesRemoteData()
-    }
-
     componentWillMount() {
-        this.init()
-
+        this.fetchSpeciesRemoteData()
     }
     render() {
 

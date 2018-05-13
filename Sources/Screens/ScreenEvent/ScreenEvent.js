@@ -11,8 +11,10 @@ import WidgetSocial from '../../Widget/WidgetSocial';
 import { colors } from '../../Theme/Theme';
 import HeartIcon from '../../Icons/Heart/HeartIcon';
 import { TextTool } from '../../Theme/style';
+import { config } from '../../Config/Config'
 
-const data = require('../../Assets/data.json');
+const rawData = require('../../Assets/data.json');
+const localData = rawData[config.zooId]
 
 class ScreenEvent extends React.Component {
     constructor(props) {
@@ -27,7 +29,7 @@ class ScreenEvent extends React.Component {
 
     fetchEventData(EventId) {
 
-        let eventData = data.eventsData.find(item => item.eventId === EventId)
+        let eventData = localData.eventsData.find(item => item.eventId === EventId)
        
         this.setState({
             eventId: eventData.eventId,

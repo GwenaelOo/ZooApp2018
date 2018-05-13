@@ -12,8 +12,10 @@ import { colors } from '../../Theme/Theme';
 import HeartIcon from '../../Icons/Heart/HeartIcon';
 import { TextTool } from '../../Theme/style';
 import List from './List';
+import { config } from '../../Config/Config'
 
-const localData = require('../../Assets/data.json');
+const rawData = require('../../Assets/data.json');
+const localData = rawData[config.zooId]
 
 class ScreenList extends React.Component {
     constructor(props) {
@@ -42,8 +44,6 @@ class ScreenList extends React.Component {
     }
 
     defineScreenType = (screenType) => {
-
-        const localData = require('../../Assets/data.json');
 
         switch (screenType) {
             case "event":

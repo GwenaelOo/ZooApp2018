@@ -12,7 +12,7 @@ import ScreenService from './Sources/Screens/ScreenService/ScreenService'
 import ScreenSpecie from './Sources/Screens/ScreenSpecie/ScreenSpecie'
 import ModalScreen from './Sources/Screens/Modal/Modal';
 
-
+const localData = require('./Sources/Assets/data.json');
 
 class HomeScreen extends React.Component {
   static navigationOptions = {
@@ -26,7 +26,6 @@ class HomeScreen extends React.Component {
   }
 
   render() {
-    console.log(this.state.speciesList)
     return (
       <View style={{ flex: 1, alignItems: 'center', justifyContent: 'space-around' }}>
 

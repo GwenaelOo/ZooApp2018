@@ -12,12 +12,13 @@ class AnimalListRoundItem extends React.Component {
         <View>
             <TouchableOpacity onPress={() => {
                 this.props.navigation.navigate('ScreenAnimal', {
-                    itemId: this.props.animal.animalId,
+                    animalId: this.props.animal.animalId,
+                    specieId: this.props.animal.specieId,
                 })
             }}>
             <View style={styles.AnimalItem}>
 
-                    <BigThumbnail uri={this.props.animal.photoURL} />
+                    <BigThumbnail uri={this.props.animal.animalPhotoProfil} />
                     <View style={{ marginLeft: 24 }}>
                         <Title text={this.props.animal.animalName} size="big" />
                         <LightTitle text={this.props.animal.animalSex + ' ' + this.props.animal.animalAge} size="big" />

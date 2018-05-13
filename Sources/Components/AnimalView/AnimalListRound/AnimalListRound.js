@@ -12,10 +12,11 @@ class AnimalListRound extends React.Component {
         for (let animal in animalsOfThisSpecie) {
             let animalData = {
                 animalId: animalsOfThisSpecie[animal].animalId,
-                photoURL: animalsOfThisSpecie[animal].photoURL,
+                animalPhotoProfil: animalsOfThisSpecie[animal].animalPhotoProfil,
                 animalName: animalsOfThisSpecie[animal].animalName,
                 animalSex: animalsOfThisSpecie[animal].animalSex,
                 animalAge: animalsOfThisSpecie[animal].animalAge,
+                specieId: animalsOfThisSpecie[animal].specieId,
             };
             animalsOfThisSpecieArray.push(animalData);
         }

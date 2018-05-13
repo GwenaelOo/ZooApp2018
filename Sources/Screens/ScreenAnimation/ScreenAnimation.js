@@ -11,8 +11,10 @@ import WidgetSocial from '../../Widget/WidgetSocial';
 import { colors } from '../../Theme/Theme';
 import HeartIcon from '../../Icons/Heart/HeartIcon';
 import { TextTool } from '../../Theme/style';
+import { config } from '../../Config/Config'
 
-const data = require('../../Assets/data.json');
+const rawData = require('../../Assets/data.json');
+const localData = rawData[config.zooId]
 
 class ScreenAnimation extends React.Component {
     constructor(props) {
@@ -27,7 +29,7 @@ class ScreenAnimation extends React.Component {
 
     fetchAnimationData(AnimationId) {
 
-        let animationData = data.animationsData.find(item => item.animationId === AnimationId)
+        let animationData = localData.animationsData.find(item => item.animationId === AnimationId)
        
         this.setState({
             animationId: animationData.animationId,

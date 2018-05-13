@@ -16,7 +16,11 @@ import HeartIcon from '../../Icons/Heart/HeartIcon';
 import { TextTool } from '../../Theme/style';
 import Gallerie from '../../Components/Img/Gallerie/Gallerie';
 
-const data = require('../../Assets/data.json');
+import * as firebase from 'firebase';
+
+
+const rawData = require('../../Assets/data.json');
+const localData = rawData[config.zooId]
 
 class ScreenAnimal extends React.Component {
     constructor(props) {
@@ -36,29 +40,121 @@ class ScreenAnimal extends React.Component {
         };
     }
 
-
-    fetchSpecieData(animalId) {
-
-        let specieId = 1
-        let specieData = data.speciesData.find(item => item.specieId === specieId)
-        let animalData = specieData.specieAnimals.find(item => item.animalId === animalId)
-
-        console.log(animalData.animalPhotos)
+    fetchAnimalLocalData(animalData) {
 
         this.setState({
             animalName: animalData.animalName,
-            animalPhotoProfil: animalData.photoURL,
+            animalPhotoProfil: animalData.animalPhotoProfil,
             animalPhotos: animalData.animalPhotos,
 
         })
     }
+
+    fetchSpecieRemoteData(specieId, animalId) {
+
+        refId = specieId - 1
+
+        var ref = firebase.database().ref('speciesData/' + refId);
+        ref.once('value')
+
+            .then(result => {
+                let remoteData = result.val()
+              
+                let animalRemoteData = remoteData.specieAnimals.find(item => item.animalId === animalId)
+
+                console.log(animalRemoteData.animalName)
+
+                this.setState({
+                    animalId: animalRemoteData.animalId,
+                    animalName: animalRemoteData.animalName,
+                    animalSpecieName: animalRemoteData.animalSpecieName,
+                    animalDescription: animalRemoteData.animalDescription,
+                    animalAge: animalRemoteData.animalAge,
+                    animalWeight: animalRemoteData.animalWeight,
+                    animalFood: animalRemoteData.animalFood,
+                    animalPhotoProfil: animalRemoteData.animalPhotoProfil,
+                    animalPhotos: animalRemoteData.animalPhotos,
+                })
+            })
+    }
+
+    getOnlineDataVersion(specieId, animalId) {
+
+        refId = specieId - 1
+
+        var ref = firebase.database().ref('speciesData/' + refId);
+        ref.once('value')
+
+            .then(result => {
+
+               
+                let remoteData = result.val()
+                let animalRemoteData = remoteData.specieAnimals.find(item => item.animalId === animalId)
+
+                this.setState({
+                    remoteDataVersion: animalRemoteData.dataVersion
+                })
+            })
+            .then(result => {
+                this.shouldUpdate()
+            })
+    }
+
+    shouldUpdate() {
+
+        console.log('Local data version ', this.state.localDataVersion)
+        console.log('Remote data version ', this.state.remoteDataVersion)
+
+        if (this.state.remoteDataVersion > this.state.localDataVersion) {
+            console.log('Mise à jour des données')
+            console.log(this.state.specieId, this.state.animalId)
+            this.fetchSpecieRemoteData(this.state.specieId, this.state.animalId)
+        }
+    }
+
+
+    checkDataVersion(specieId, animalId) {
+
+        console.log('check data version for the specieId', specieId)
+        // Recuperation de la dataversion local
+        let specieData = localData.speciesData.find(item => item.specieId === specieId)
+        let animalData = specieData.specieAnimals.find(item => item.animalId === animalId)
+
+        console.log(animalData)
+
+        this.setState({
+            localDataVersion: animalData.dataVersion,
+            specieId: specieId,
+            animalId: animalId,
+        })
+
+       
+        this.getOnlineDataVersion(specieId, animalId)
+    }
+
+
+    checkItemLocation(specieId, animalId) {
+        let specieData = localData.speciesData.find(item => item.specieId === specieId)
+        let animalData = specieData.specieAnimals.find(item => item.animalId === animalId)
+
+        console.log(specieId, animalId)
+        if (specieData == null) {
+            console.log('data online')
+            this.fetchAnimalRemoteData(specieId, animalId)
+        } else {
+            console.log('data local')
+            this.fetchAnimalLocalData(animalData)
+            this.checkDataVersion(specieId, animalId)
+        }
+    }
+
     componentDidMount() {
-        this.fetchSpecieData(this.props.navigation.state.params.itemId)
+        this.checkItemLocation(this.props.navigation.state.params.specieId, this.props.navigation.state.params.animalId)
+        
     }
 
 
     render() {
-        console.log(this.state.animalPhotos)
         return (
             <ScrollView>
                 <View style={styles.container}>

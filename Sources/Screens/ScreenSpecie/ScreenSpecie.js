@@ -17,28 +17,12 @@ import BlogPost from '../../Components/BlogPost/BlogPost';
 import Gallerie from '../../Components/Img/Gallerie/Gallerie';
 import AnimalListRoundItem from '../../Components/AnimalView/AnimalListRound/AnimalListRoundItem';
 import AnimalListRound from '../../Components/AnimalView/AnimalListRound/AnimalListRound';
+import {config} from '../../Config/Config'
 
 import * as firebase from 'firebase';
 
-const localData = require('../../Assets/data.json');
-
-// FIREBASE STUFF
-
-// const firebaseConfig = {
-//   apiKey: "AIzaSyCCgViEwbs3Ie4sRbWBc9FDmRZJls7lXhg",
-//   authDomain: "akongo-zoo-manager-preprod.firebaseapp.com",
-//   databaseURL: "https://akongo-zoo-manager-preprod.firebaseio.com",
-//   storageBucket: "akongo-zoo-manager-preprod.appspot.com",
-
-// };
-
-// firebase.initializeApp(firebaseConfig);
-
-// // Get a reference to the database service
-// var database = firebase.database();
-
-// FIREBASE STUFF 
-
+const rawData = require('../../Assets/data.json');
+const localData = rawData[config.zooId]
 
 class SpecieScreen extends React.Component {
     constructor(props) {
@@ -69,13 +53,45 @@ class SpecieScreen extends React.Component {
         };
     }
 
+    fetchSpecieRemoteData(itemId) {
+
+        let refId = itemId - 1
+
+        var ref = firebase.database().ref('speciesData/' + refId);
+        ref.once('value')
+
+            .then(result => this.setState({
+                remoteData: result.val()
+            }))
+
+            .then(result => this.mergeRemoteAndLocalData(this.state.remoteData));
+    }
+
+    mergeRemoteAndLocalData = (remoteData) => {
+        console.log('hey')
+        this.setState({
+            specieId: remoteData.specieId,
+            specieName: remoteData.specieName,
+            specieLatinName: remoteData.specieLatinName,
+            specieEnglishName: remoteData.specieEnglishName,
+            specieClass: remoteData.specieClass,
+            specieOrder: remoteData.specieOrder,
+            specieFamilly: remoteData.specieFamilly,
+            specieIUCNClassification: remoteData.specieIUCNClassification,
+            specieDescription: remoteData.specieDescription,
+            specieGestation: remoteData.specieGestation,
+            specieWeight: remoteData.specieWeight,
+            specieLifeExpectancy: remoteData.specieLifeExpectancy,
+            specieFood: remoteData.specieFood,
+            specieProfilePicture: remoteData.specieProfilePicture,
+            speciePhotos: remoteData.speciePhotos,
+            specieAnimals: remoteData.specieAnimals,
+        })
+    }
+
     fetchSpecieLocalData(specieId) {
 
-        console.log(specieId)
-
         let specieData = localData.speciesData.find(item => item.specieId === specieId)
-
-        console.log(specieData)
 
         this.setState({
             specieId: specieData.specieId,
@@ -97,8 +113,63 @@ class SpecieScreen extends React.Component {
 
         })
     }
+
+    getOnlineDataVersion(itemId) {
+
+        let refId = itemId - 1
+
+        var ref = firebase.database().ref('speciesData/' + refId);
+        ref.once('value')
+
+            .then(result => {
+                let remoteData = result.val()
+                this.setState({
+                    remoteDataVersion: remoteData.dataVersion
+                })
+            })
+            .then(result => {
+                this.shouldUpdate()
+            })
+    }
+
+    shouldUpdate() {
+
+        console.log('Local data version ', this.state.localDataVersion)
+        console.log('Remote data version ', this.state.remoteDataVersion)
+
+        if (this.state.remoteDataVersion > this.state.localDataVersion) {
+            console.log('Mise à jour des données')
+            this.fetchSpecieRemoteData(this.state.specieId)
+        }
+
+    }
+
+    checkDataVersion(specieId) {
+
+        console.log('check data version for the specieId', specieId)
+        // Recuperation de la dataversion local
+        let specieData = localData.speciesData.find(item => item.specieId === specieId)
+        
+        this.setState({
+            localDataVersion: specieData.dataVersion
+        })
+        this.getOnlineDataVersion(specieId)
+    }
+
+    checkItemLocation(specieId) {
+        let specieData = localData.speciesData.find(item => item.specieId === specieId)
+        if (specieData == null) {
+            console.log('data online')
+            this.fetchSpecieRemoteData(specieId)
+        } else {
+            console.log('data local')
+            this.fetchSpecieLocalData(specieId)
+            this.checkDataVersion(specieId)
+        }
+    }
+
     componentDidMount() {
-        this.fetchSpecieLocalData(this.props.navigation.state.params.itemId)
+        this.checkItemLocation(this.props.navigation.state.params.itemId)
     }
 
     render() {
@@ -128,7 +199,7 @@ class SpecieScreen extends React.Component {
 
                     <LargeSeparator text="Gallerie" />
 
-                    <Gallerie photos={this.state.speciePhotos}/>
+                    <Gallerie photos={this.state.speciePhotos} />
 
                     <LargeSeparator text="Nos animaux" />
 
