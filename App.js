@@ -12,7 +12,21 @@ import ScreenService from './Sources/Screens/ScreenService/ScreenService'
 import ScreenSpecie from './Sources/Screens/ScreenSpecie/ScreenSpecie'
 import ModalScreen from './Sources/Screens/Modal/Modal';
 
+import * as firebase from 'firebase';
+import {config, firebaseConfig} from './Sources/Config/Config'
+
 const localData = require('./Sources/Assets/data.json');
+
+
+// FIREBASE STUFF
+
+firebase.initializeApp(firebaseConfig);
+
+// Get a reference to the database service
+var database = firebase.database();
+
+// FIREBASE STUFF 
+
 
 class HomeScreen extends React.Component {
   static navigationOptions = {

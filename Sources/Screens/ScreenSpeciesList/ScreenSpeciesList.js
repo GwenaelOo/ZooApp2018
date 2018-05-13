@@ -16,16 +16,6 @@ import {config, firebaseConfig} from '../../Config/Config'
 
 import * as firebase from 'firebase';
 
-
-// FIREBASE STUFF
-
-firebase.initializeApp(firebaseConfig);
-
-// Get a reference to the database service
-var database = firebase.database();
-
-// FIREBASE STUFF 
-
 const rawData = require('../../Assets/data.json');
 const localData = rawData[config.zooId]
 
