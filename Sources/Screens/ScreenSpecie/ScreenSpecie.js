@@ -57,7 +57,7 @@ class SpecieScreen extends React.Component {
 
         let refId = itemId - 1
 
-        var ref = firebase.database().ref('speciesData/' + refId);
+        var ref = firebase.database().ref(config.zooId + 'speciesData/' + refId);
         ref.once('value')
 
             .then(result => this.setState({
@@ -118,7 +118,7 @@ class SpecieScreen extends React.Component {
 
         let refId = itemId - 1
 
-        var ref = firebase.database().ref('speciesData/' + refId);
+        var ref = firebase.database().ref(config.zooId + '/speciesData/' + refId);
         ref.once('value')
 
             .then(result => {

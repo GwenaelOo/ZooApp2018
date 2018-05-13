@@ -11,7 +11,8 @@ import WidgetSocial from '../../Widget/WidgetSocial';
 import { colors } from '../../Theme/Theme';
 import HeartIcon from '../../Icons/Heart/HeartIcon';
 import { TextTool } from '../../Theme/style';
-import { config } from '../../Config/Config'
+import { config } from '../../Config/Config';
+import * as firebase from 'firebase';
 
 const rawData = require('../../Assets/data.json');
 const localData = rawData[config.zooId]
@@ -27,7 +28,7 @@ class ScreenService extends React.Component {
         };
     }
 
-    fetchServiceData(ServiceId) {
+    fetchServiceLocalData(ServiceId) {
 
         let serviceData = localData.servicesData.find(item => item.serviceId === ServiceId)
        
@@ -37,8 +38,82 @@ class ScreenService extends React.Component {
     
         })
     }
+
+    fetchServiceRemoteData(ServiceId) {
+
+        refId = ServiceId - 1
+
+        console.log(refId)
+
+        var ref = firebase.database().ref(config.zooId + '/servicesData/' + refId);
+        ref.once('value')
+
+            .then(result => {
+                let serviceRemoteData = result.val()
+               
+                this.setState({
+                    serviceId: serviceRemoteData.serviceId,
+                    serviceName: serviceRemoteData.serviceName,
+                })
+            })
+    }
+
+    getOnlineDataVersion(itemId) {
+
+        let refId = itemId - 1
+
+        var ref = firebase.database().ref(config.zooId + '/servicesData/' + refId);
+        ref.once('value')
+
+            .then(result => {
+                let remoteData = result.val()
+                this.setState({
+                    remoteDataVersion: remoteData.dataVersion
+                })
+            })
+            .then(result => {
+                this.shouldUpdate(itemId)
+            })
+    }
+
+    shouldUpdate(itemId) {
+
+        console.log('Local data version ', this.state.localDataVersion)
+        console.log('Remote data version ', this.state.remoteDataVersion)
+
+        if (this.state.remoteDataVersion > this.state.localDataVersion) {
+            console.log('Mise à jour des données')
+            this.fetchServiceRemoteData(itemId)
+        }
+
+    }
+
+    checkDataVersion(serviceId) {
+
+        console.log('check data version for the serviceId', serviceId)
+        // Recuperation de la dataversion local
+        let serviceData = localData.servicesData.find(item => item.serviceId === serviceId)
+        
+        this.setState({
+            localDataVersion: serviceData.dataVersion
+        })
+        this.getOnlineDataVersion(serviceId)
+    }
+
+    checkItemLocation(serviceId) {
+        let serviceData = localData.servicesData.find(item => item.serviceId === serviceId)
+        if (serviceData == null) {
+            console.log('data online')
+            this.fetchServiceRemoteData(serviceId)
+        } else {
+            console.log('data local')
+            this.fetchServiceLocalData(serviceId)
+            this.checkDataVersion(serviceId)
+        }
+    }
+    
     componentDidMount() {
-        this.fetchServiceData(this.props.navigation.state.params.itemId)
+        this.checkItemLocation(this.props.navigation.state.params.itemId)
     }
 
     render() {

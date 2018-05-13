@@ -11,7 +11,8 @@ import WidgetSocial from '../../Widget/WidgetSocial';
 import { colors } from '../../Theme/Theme';
 import HeartIcon from '../../Icons/Heart/HeartIcon';
 import { TextTool } from '../../Theme/style';
-import { config } from '../../Config/Config'
+import { config } from '../../Config/Config';
+import * as firebase from 'firebase';
 
 const rawData = require('../../Assets/data.json');
 const localData = rawData[config.zooId]
@@ -27,7 +28,7 @@ class ScreenEvent extends React.Component {
         };
     }
 
-    fetchEventData(EventId) {
+    fetchEventLocalData(EventId) {
 
         let eventData = localData.eventsData.find(item => item.eventId === EventId)
        
@@ -37,9 +38,82 @@ class ScreenEvent extends React.Component {
     
         })
     }
-    componentDidMount() {
-        this.fetchEventData(this.props.navigation.state.params.itemId)
+
+    fetchEventRemoteData(eventId) {
+
+        refId = eventId - 1
+
+        var ref = firebase.database().ref(config.zooId + '/eventsData/' + refId);
+        ref.once('value')
+
+            .then(result => {
+                let eventRemoteData = result.val()
+               
+                this.setState({
+                    eventId: eventRemoteData.eventId,
+                    eventName: eventRemoteData.eventName,
+                })
+            })
     }
+
+    getOnlineDataVersion(itemId) {
+
+        let refId = itemId - 1
+        
+        var ref = firebase.database().ref(config.zooId + '/eventsData/' + refId);
+        ref.once('value')
+
+            .then(result => {
+                let remoteData = result.val()
+                this.setState({
+                    remoteDataVersion: remoteData.dataVersion
+                })
+            })
+            .then(result => {
+                this.shouldUpdate(itemId)
+            })
+    }
+
+    shouldUpdate(itemId) {
+
+        console.log('Local data version ', this.state.localDataVersion)
+        console.log('Remote data version ', this.state.remoteDataVersion)
+
+        if (this.state.remoteDataVersion > this.state.localDataVersion) {
+            console.log('Mise à jour des données')
+            this.fetchEventRemoteData(itemId)
+        }
+
+    }
+
+    checkDataVersion(EventId) {
+
+        console.log('check data version for the eventId', EventId)
+        // Recuperation de la dataversion local
+        let eventData = localData.eventsData.find(item => item.eventId === EventId)
+        
+        this.setState({
+            localDataVersion: eventData.dataVersion
+        })
+        this.getOnlineDataVersion(EventId)
+    }
+
+    checkItemLocation(EventId) {
+        let eventData = localData.eventsData.find(item => item.eventId === EventId)
+        if (eventData == null) {
+            console.log('data online')
+            this.fetchEventRemoteData(EventId)
+        } else {
+            console.log('data local')
+            this.fetchEventLocalData(EventId)
+            this.checkDataVersion(EventId)
+        }
+    }
+    
+    componentDidMount() {
+        this.checkItemLocation(this.props.navigation.state.params.itemId)
+    }
+
 
     render() {
         return (

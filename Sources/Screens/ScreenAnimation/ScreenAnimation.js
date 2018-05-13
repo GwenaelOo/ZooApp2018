@@ -11,7 +11,8 @@ import WidgetSocial from '../../Widget/WidgetSocial';
 import { colors } from '../../Theme/Theme';
 import HeartIcon from '../../Icons/Heart/HeartIcon';
 import { TextTool } from '../../Theme/style';
-import { config } from '../../Config/Config'
+import { config } from '../../Config/Config';
+import * as firebase from 'firebase';
 
 const rawData = require('../../Assets/data.json');
 const localData = rawData[config.zooId]
@@ -27,7 +28,8 @@ class ScreenAnimation extends React.Component {
         };
     }
 
-    fetchAnimationData(AnimationId) {
+    
+    fetchAnimationLocalData(AnimationId) {
 
         let animationData = localData.animationsData.find(item => item.animationId === AnimationId)
        
@@ -37,8 +39,80 @@ class ScreenAnimation extends React.Component {
     
         })
     }
+
+    fetchAnimationRemoteData(animationId) {
+
+        refId = animationId - 1
+
+        var ref = firebase.database().ref(config.zooId + '/animationsData/' + refId);
+        ref.once('value')
+
+            .then(result => {
+                let animationRemoteData = result.val()
+               
+                this.setState({
+                    animationId: animationRemoteData.animationId,
+                    animationName: animationRemoteData.animationName,
+                })
+            })
+    }
+
+    getOnlineDataVersion(itemId) {
+
+        let refId = itemId - 1
+        
+        var ref = firebase.database().ref(config.zooId + '/animationsData/' + refId);
+        ref.once('value')
+
+            .then(result => {
+                let remoteData = result.val()
+                this.setState({
+                    remoteDataVersion: remoteData.dataVersion
+                })
+            })
+            .then(result => {
+                this.shouldUpdate(itemId)
+            })
+    }
+
+    shouldUpdate(itemId) {
+
+        console.log('Local data version ', this.state.localDataVersion)
+        console.log('Remote data version ', this.state.remoteDataVersion)
+
+        if (this.state.remoteDataVersion > this.state.localDataVersion) {
+            console.log('Mise à jour des données')
+            this.fetchAnimationRemoteData(itemId)
+        }
+
+    }
+
+    checkDataVersion(AnimationId) {
+
+        console.log('check data version for the animationId', AnimationId)
+        // Recuperation de la dataversion local
+        let animationData = localData.animationsData.find(item => item.animationId === AnimationId)
+        
+        this.setState({
+            localDataVersion: animationData.dataVersion
+        })
+        this.getOnlineDataVersion(AnimationId)
+    }
+
+    checkItemLocation(AnimationId) {
+        let animationData = localData.animationsData.find(item => item.animationId === AnimationId)
+        if (animationData == null) {
+            console.log('data online')
+            this.fetctAnimationRemoteData(AnimationId)
+        } else {
+            console.log('data local')
+            this.fetchAnimationLocalData(AnimationId)
+            this.checkDataVersion(AnimationId)
+        }
+    }
+    
     componentDidMount() {
-        this.fetchAnimationData(this.props.navigation.state.params.itemId)
+        this.checkItemLocation(this.props.navigation.state.params.itemId)
     }
 
     render() {

@@ -54,7 +54,7 @@ class ScreenAnimal extends React.Component {
 
         refId = specieId - 1
 
-        var ref = firebase.database().ref('speciesData/' + refId);
+        var ref = firebase.database().ref(config.zooId + '/speciesData/' + refId);
         ref.once('value')
 
             .then(result => {
@@ -82,7 +82,7 @@ class ScreenAnimal extends React.Component {
 
         refId = specieId - 1
 
-        var ref = firebase.database().ref('speciesData/' + refId);
+        var ref = firebase.database().ref(config.zooId + '/speciesData/' + refId);
         ref.once('value')
 
             .then(result => {
