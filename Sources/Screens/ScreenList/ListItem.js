@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View, Image, ScrollView, Dimensions } from 'react-native';
+import { StyleSheet, Text, View, Image, ScrollView, TouchableOpacity, Dimensions } from 'react-native';
 import PlaceHolderHeader from '../../Components/PlaceHolderHeader/PlaceHolderHeader';
 import NavBar from '../../Components/NavBar/NavBar';
 import LargeSeparator from '../../Components/LargeSeparator/LargeSeparator';
@@ -11,54 +11,54 @@ import WidgetSocial from '../../Widget/WidgetSocial';
 import { colors } from '../../Theme/Theme';
 import HeartIcon from '../../Icons/Heart/HeartIcon';
 import { TextTool } from '../../Theme/style';
-import EventsList from './EventsList';
+
+import { withNavigation } from 'react-navigation';
 
 
-class ScreenEventsList extends React.Component {
+class ListItem extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             width: Dimensions.get('window').width,
-            height: Dimensions.get('window').height
+            height: Dimensions.get('window').height,
+            screenType: this.props.item.screenType,
         };
     }
 
     render() {
+
+        console.log(this.props.item)
+
         return (
-            <ScrollView>
-                <View style={styles.container}>
+            <TouchableOpacity onPress={() => {
+                this.props.navigation.navigate('ScreenAnimal', {
+                    itemId: ''
+                })
+            }}>
+                <View style={styles.eventItem}>
+                    <View style={styles.eventItemTitle}>
+                        <Title text={this.props.item.itemName} size="big" />
+                        <LightTitle text="Restaurant" size="medium" />
+                    </View>
+                    <Image
+                        style={{ width: this.state.width * 0.9, height: (this.state.height / 3), borderRadius: this.state.height / 30 }}
+                        source={{ uri: this.props.item.itemPicture}}
+                    />
                 </View>
-                <View style={styles.container}>
-                    <EventsList EventsList={this.state.EventsList}/>
-                </View>
-            </ScrollView>
+            </TouchableOpacity>
         );
     }
 }
 
 const styles = StyleSheet.create({
-    container: {
-        display: "flex",
-        backgroundColor: colors.BACKGROUND_COLOR,
-        alignItems: "center",
-        justifyContent: "center"
-
-    },
-    restaurantList: {
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        marginBottom: 20,
-        width: "100%"
-    },
-    restaurantItem: {
+    eventItem: {
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
         marginTop: 20
 
     },
-    restaurantItemTitle: {
+    eventItemTitle: {
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
@@ -76,5 +76,6 @@ const styles = StyleSheet.create({
     },
 });
 
-export default ScreenEventsList
+
+export default withNavigation(ListItem);
 

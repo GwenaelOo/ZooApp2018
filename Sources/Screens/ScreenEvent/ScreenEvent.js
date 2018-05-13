@@ -7,14 +7,13 @@ import BasicButton from '../../Components/Button/BasicButton';
 import SquareImg from '../../Components/Img/SquareImg/SquareImg';
 import Title from '../../Components/Text/Title/Title';
 import LightTitle from '../../Components/Text/LightTitle/LightTitle';
-import Post from '../../Components/Img/Post/Post';
 import WidgetSocial from '../../Widget/WidgetSocial';
 import { colors } from '../../Theme/Theme';
 import HeartIcon from '../../Icons/Heart/HeartIcon';
 import { TextTool } from '../../Theme/style';
 
 
-class SpecieScreen extends React.Component {
+class ScreenEvent  extends React.Component {
     constructor(props) {
         super(props);
         this.state = { 
@@ -27,7 +26,6 @@ class SpecieScreen extends React.Component {
         return (
             <ScrollView>
                 <View style={styles.container}>
-                    <NavBar text='Liste des espèces' />
                     <View style={styles.SpecieIntro}>
                         <Image
                             style={{ width: this.state.width, height: (this.state.height/2.5)}}
@@ -35,7 +33,7 @@ class SpecieScreen extends React.Component {
                         />
         
                         <View style={{marginTop: 10 }}>
-                            <Title text="Ken le survivant" size="big" style={{ marginLeft: 0, marginTop: 10 }}/>
+                            <Title text="Screen Event" size="big" style={{ marginLeft: 0, marginTop: 10 }}/>
                         </View>
 
 
@@ -112,5 +110,5 @@ const styles = StyleSheet.create({
     },
 });
 
-export default SpecieScreen
+export default ScreenEvent 
 

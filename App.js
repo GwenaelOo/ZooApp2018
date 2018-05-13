@@ -5,7 +5,8 @@ import ZooApp from './Sources/ZooApp'
 
 import ScreenAnimal from './Sources/Screens/ScreenAnimal/ScreenAnimal'
 import ScreenSpeciesList from './Sources/Screens/ScreenSpeciesList/ScreenSpeciesList'
-import ScreenEventsList from './Sources/Screens/ScreenEventsList/ScreenEventsList'
+import ScreenList from './Sources/Screens/ScreenList/ScreenList'
+import ScreenEvent from './Sources/Screens/ScreenEvent/ScreenEvent'
 import ScreenServicesList from './Sources/Screens/ScreenServicesList/ScreenServicesList'
 import ScreenAnimationsList from './Sources/Screens/ScreenAnimationsList/ScreenAnimationsList'
 import ScreenSpecie from './Sources/Screens/ScreenSpecie/ScreenSpecie'
@@ -39,21 +40,26 @@ class HomeScreen extends React.Component {
         <Button
           title="Aller à la page Liste animations"
           onPress={() => {
-            this.props.navigation.navigate('ScreenAnimationsList', {
+            this.props.navigation.navigate('ScreenList', {
+              screenType: "animation"
             });
           }}
         />
         <Button
           title="Aller à la page Liste evenements"
           onPress={() => {
-            this.props.navigation.navigate('ScreenEventsList', {
+            this.props.navigation.navigate('ScreenList', {
+              screenType: "event"
             });
           }}
         />
+
         <Button
           title="Aller à la page List services"
           onPress={() => {
-            this.props.navigation.navigate('ScreenServicesList', {
+            this.props.navigation.navigate('ScreenList', {         
+                screenType: "service"
+  
             });
           }}
         />
@@ -79,8 +85,11 @@ const Navigator = StackNavigator({
   ScreenAnimationsList: {
     screen: ScreenAnimationsList
   },
-  ScreenEventsList: {
-    screen: ScreenEventsList
+  ScreenList: {
+    screen: ScreenList
+  },
+  ScreenEvent: {
+    screen: ScreenEvent
   },
   ScreenServicesList: {
     screen: ScreenServicesList

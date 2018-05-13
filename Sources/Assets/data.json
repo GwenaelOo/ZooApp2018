@@ -114,5 +114,69 @@
                 }
             ]
         }
+    ],
+    "eventsData": [
+        {
+            "dataVersion" : 1,
+            "eventId" : 1,
+            "eventName" : "Le falafel dorée",
+            "eventProfilePicture" : "hey",
+            "eventPhotos": [
+                {
+                    "photoId": 1,
+                    "photoURL": "https://fr.cdn.v5.futura-sciences.com/buildsv6/images/mediumoriginal/f/7/e/f7e7f6683b_80140_album-faune-juvenile5.jpg"
+                },
+                {
+                    "photoId": 2,
+                    "photoURL": "http://tnregneanimal.tableau-noir.net/images/girafe.jpg"
+                },
+                {
+                    "photoId": 3,
+                    "photoURL": "https://media.istockphoto.com/photos/portrait-of-masai-giraffe-picture-id645123580?k=6&m=645123580&s=612x612&w=0&h=OY8Nrt9fIWf23RmsR8XJio2NQB1YER2r-mgHHO9O33I="
+                }
+            ]
+        },
+        {
+            "dataVersion" : 1,
+            "eventId" : 2,
+            "eventName" : "la creposucre",
+            "eventProfilePicture" : "hey",
+            "eventPhotos": [
+                {
+                    "photoId": 1,
+                    "photoURL": "https://fr.cdn.v5.futura-sciences.com/buildsv6/images/mediumoriginal/f/7/e/f7e7f6683b_80140_album-faune-juvenile5.jpg"
+                },
+                {
+                    "photoId": 2,
+                    "photoURL": "http://tnregneanimal.tableau-noir.net/images/girafe.jpg"
+                },
+                {
+                    "photoId": 3,
+                    "photoURL": "https://media.istockphoto.com/photos/portrait-of-masai-giraffe-picture-id645123580?k=6&m=645123580&s=612x612&w=0&h=OY8Nrt9fIWf23RmsR8XJio2NQB1YER2r-mgHHO9O33I="
+                }
+            ]
+        }
+    ],
+    "animationData": [
+        {
+            "dataVersion" : 1,
+            "animationId" : 1,
+            "animationName" : "La nuit des morts vivants",
+            "animationProfilePicture" : "https://upload.wikimedia.org/wikipedia/commons/thumb/4/48/Night_of_the_living_Dead_Logo.png/620px-Night_of_the_living_Dead_Logo.png",
+            "animationPhotos": [
+                {
+                    "photoId": 1,
+                    "photoURL": "https://fr.cdn.v5.futura-sciences.com/buildsv6/images/mediumoriginal/f/7/e/f7e7f6683b_80140_album-faune-juvenile5.jpg"
+                },
+                {
+                    "photoId": 2,
+                    "photoURL": "http://tnregneanimal.tableau-noir.net/images/girafe.jpg"
+                },
+                {
+                    "photoId": 3,
+                    "photoURL": "https://media.istockphoto.com/photos/portrait-of-masai-giraffe-picture-id645123580?k=6&m=645123580&s=612x612&w=0&h=OY8Nrt9fIWf23RmsR8XJio2NQB1YER2r-mgHHO9O33I="
+                }
+            ]
+        }
     ]
 }
