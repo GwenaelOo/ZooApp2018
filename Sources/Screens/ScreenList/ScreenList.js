@@ -53,9 +53,16 @@ class ScreenList extends React.Component {
                 break;
 
             case "animation":
-            
+
                 this.setState({
-                    dataList: localData.animationData,
+                    dataList: localData.animationsData,
+                })
+                break;
+
+            case "service":
+
+                this.setState({
+                    dataList: localData.servicesData,
                 })
                 break;
             default:

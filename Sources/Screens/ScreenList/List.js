@@ -17,7 +17,8 @@ class List extends React.Component {
                         itemName: itemsList[item].eventName,
                         itemType: this.props.screenType,
                         itemPicture: itemsList[item].eventProfilePicture,
-                        ScreenNavigator : "ScreenEvent"
+                        itemId: itemsList[item].eventId,
+                        screenNavigator: "ScreenEvent"
                     };
                     console.log(itemData)
                     itemsListArray.push(itemData);
@@ -32,7 +33,22 @@ class List extends React.Component {
                         itemName: itemsList[item].animationName,
                         itemType: this.props.screenType,
                         itemPicture: itemsList[item].animationProfilePicture,
-                        ScreenNavigator : "ScreenSpecie"
+                        itemId: itemsList[item].animationId,
+                        screenNavigator: "ScreenAnimation"
+                    };
+                    itemsListArray.push(itemData);
+                }
+                break;
+
+            case "service":
+
+                for (let item in itemsList) {
+                    let itemData = {
+                        itemName: itemsList[item].serviceName,
+                        itemType: this.props.screenType,
+                        itemPicture: itemsList[item].serviceProfilePicture,
+                        itemId: itemsList[item].serviceId,
+                        screenNavigator: "ScreenService"
                     };
                     itemsListArray.push(itemData);
                 }

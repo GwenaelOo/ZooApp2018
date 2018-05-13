@@ -14,29 +14,29 @@ import { TextTool } from '../../Theme/style';
 
 const data = require('../../Assets/data.json');
 
-class ScreenEvent extends React.Component {
+class ScreenAnimation extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             width: Dimensions.get('window').width,
             height: Dimensions.get('window').height,
-            eventId: 0,
-            eventName: ''
+            animationId: 0,
+            animationName: ''
         };
     }
 
-    fetchEventData(EventId) {
+    fetchAnimationData(AnimationId) {
 
-        let eventData = data.eventsData.find(item => item.eventId === EventId)
+        let animationData = data.animationsData.find(item => item.animationId === AnimationId)
        
         this.setState({
-            eventId: eventData.eventId,
-            eventName: eventData.eventName,
+            animationId: animationData.animationId,
+            animationName: animationData.animationName,
     
         })
     }
     componentDidMount() {
-        this.fetchEventData(this.props.navigation.state.params.itemId)
+        this.fetchAnimationData(this.props.navigation.state.params.itemId)
     }
 
     render() {
@@ -49,7 +49,7 @@ class ScreenEvent extends React.Component {
                             source={{ uri: 'https://upload.wikimedia.org/wikipedia/commons/1/1a/Face_of_a_red_panda_%28Ailurus_fulgens%29_-_20080702.jpg' }}
                         />
                         <Text style={[TextTool.PARAGRAPH, { marginHorizontal: 20 }]}>
-                      {this.state.eventName}
+                      {this.state.animationName}
                     </Text>
                     </View>
                 </View>
@@ -83,5 +83,5 @@ const styles = StyleSheet.create({
     },
 });
 
-export default ScreenEvent
+export default ScreenAnimation
 

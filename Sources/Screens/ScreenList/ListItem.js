@@ -31,8 +31,8 @@ class ListItem extends React.Component {
 
         return (
             <TouchableOpacity onPress={() => {
-                this.props.navigation.navigate('ScreenAnimal', {
-                    itemId: ''
+                this.props.navigation.navigate(this.props.item.screenNavigator, {
+                    itemId: this.props.item.itemId
                 })
             }}>
                 <View style={styles.eventItem}>

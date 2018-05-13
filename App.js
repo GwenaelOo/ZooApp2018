@@ -7,8 +7,8 @@ import ScreenAnimal from './Sources/Screens/ScreenAnimal/ScreenAnimal'
 import ScreenSpeciesList from './Sources/Screens/ScreenSpeciesList/ScreenSpeciesList'
 import ScreenList from './Sources/Screens/ScreenList/ScreenList'
 import ScreenEvent from './Sources/Screens/ScreenEvent/ScreenEvent'
-import ScreenServicesList from './Sources/Screens/ScreenServicesList/ScreenServicesList'
-import ScreenAnimationsList from './Sources/Screens/ScreenAnimationsList/ScreenAnimationsList'
+import ScreenAnimation from './Sources/Screens/ScreenAnimation/ScreenAnimation'
+import ScreenService from './Sources/Screens/ScreenService/ScreenService'
 import ScreenSpecie from './Sources/Screens/ScreenSpecie/ScreenSpecie'
 import ModalScreen from './Sources/Screens/Modal/Modal';
 
@@ -82,17 +82,17 @@ const Navigator = StackNavigator({
   ScreenSpeciesList: {
     screen: ScreenSpeciesList
   },
-  ScreenAnimationsList: {
-    screen: ScreenAnimationsList
-  },
   ScreenList: {
     screen: ScreenList
   },
   ScreenEvent: {
     screen: ScreenEvent
   },
-  ScreenServicesList: {
-    screen: ScreenServicesList
+  ScreenAnimation: {
+    screen: ScreenAnimation
+  },
+  ScreenService: {
+    screen: ScreenService
   },
   ScreenSpecie: {
     screen: ScreenSpecie
