@@ -34,29 +34,68 @@ class SpecieScreen extends React.Component {
     };
 
     fetchSpeciesRemoteData() {
-        var ref = firebase.database().ref('AkongoFakeZoo/speciesData/');
+        var ref = firebase.database().ref( config.zooId + '/speciesData/');
         ref.once('value')
-
             .then(result => this.setState({
                 remoteData: result.val()
             })
         )
-
             .then(result => this.mergeRemoteAndLocalData(this.state.remoteData));
     }
+    
 
     mergeRemoteAndLocalData = (remoteData) => {
-        console.log(remoteData)
-        this.setState({
-            speciesList: remoteData
-        })
+
+        for (let specie in remoteData) {
+
+            let remoteDataVersion = remoteData[specie].dataVersion
+            let localDataVersion = this.state.speciesList[specie].dataVersion
+
+            console.log('remote data version de la specie' + remoteData[specie].specieName + ' ' + remoteDataVersion)
+            console.log('local data version de la specie' + this.state.speciesList[specie].specieName  + ' ' + localDataVersion)
+
+    
+            if (remoteDataVersion > localDataVersion){
+                console.log('mise à jour')
+
+                let newList = this.state.speciesList
+                console.log(newList[specie])
+                
+                    newList[specie].specieId = [remoteData[specie].specieId].toString()
+                    newList[specie].specieName = [remoteData[specie].specieName].toString()
+                    newList[specie].specieLatinName = [remoteData[specie].specieLatinName].toString()
+                    newList[specie].specieEnglishName = [remoteData[specie].specieEnglishName].toString()
+                    newList[specie].specieClass = [remoteData[specie].specieClass].toString()
+                    newList[specie].specieOrder = [remoteData[specie].specieOrder].toString()
+                    newList[specie].specieFamilly = [remoteData[specie].specieFamilly].toString()
+                    newList[specie].specieIUCNClassification = [remoteData[specie].specieIUCNClassification].toString()
+                    newList[specie].specieDescription = [remoteData[specie].specieDescription].toString()
+                    newList[specie].specieGestation = [remoteData[specie].specieGestation].toString()
+                    newList[specie].specieWeight = [remoteData[specie].specieWeight].toString()
+                    newList[specie].specieLifeExpectancy = [remoteData[specie].specieLifeExpectancy].toString()
+                    newList[specie].specieFood = [remoteData[specie].specieFood].toString()
+                    newList[specie].specieProfilePicture = [remoteData[specie].specieProfilePicture].toString()
+                    newList[specie].speciePhotos = [remoteData[specie].speciePhotos]
+                    newList[specie].specieAnimals = [remoteData[specie].specieAnimals]
+
+                console.log(newList)
+
+                this.setState({
+                    speciesList: newList
+                })
+                
+                console.log([remoteData[specie].specieName])
+                let specieName = [remoteData[specie].specieName].toString()
+                console.log(specieName)
+            }
+        }
     }
 
     componentWillMount() {
         this.fetchSpeciesRemoteData()
     }
-    render() {
 
+    render() {
         let item = this.state.speciesList
 
         return (

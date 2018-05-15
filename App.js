@@ -1,7 +1,6 @@
 import React from 'react';
 import { StyleSheet, Text, View, Button } from 'react-native';
 import { StackNavigator } from 'react-navigation';
-import ZooApp from './Sources/ZooApp'
 
 import ScreenAnimal from './Sources/Screens/ScreenAnimal/ScreenAnimal'
 import ScreenSpeciesList from './Sources/Screens/ScreenSpeciesList/ScreenSpeciesList'
@@ -17,7 +16,6 @@ import {config, firebaseConfig} from './Sources/Config/Config'
 
 const localData = require('./Sources/Assets/data.json');
 
-
 // FIREBASE STUFF
 
 firebase.initializeApp(firebaseConfig);
@@ -26,7 +24,6 @@ firebase.initializeApp(firebaseConfig);
 var database = firebase.database();
 
 // FIREBASE STUFF 
-
 
 class HomeScreen extends React.Component {
   static navigationOptions = {

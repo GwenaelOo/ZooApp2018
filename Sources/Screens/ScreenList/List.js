@@ -14,13 +14,13 @@ class List extends React.Component {
 
                 for (let item in itemsList) {
                     let itemData = {
+                        dataVersion: itemsList[item].dataVersion,
                         itemName: itemsList[item].eventName,
                         itemType: this.props.screenType,
                         itemPicture: itemsList[item].eventProfilePicture,
                         itemId: itemsList[item].eventId,
                         screenNavigator: "ScreenEvent"
                     };
-                    console.log(itemData)
                     itemsListArray.push(itemData);
                 }
 
@@ -30,6 +30,7 @@ class List extends React.Component {
 
                 for (let item in itemsList) {
                     let itemData = {
+                        dataVersion: itemsList[item].dataVersion,
                         itemName: itemsList[item].animationName,
                         itemType: this.props.screenType,
                         itemPicture: itemsList[item].animationProfilePicture,
@@ -44,6 +45,7 @@ class List extends React.Component {
 
                 for (let item in itemsList) {
                     let itemData = {
+                        dataVersion: itemsList[item].dataVersion,
                         itemName: itemsList[item].serviceName,
                         itemType: this.props.screenType,
                         itemPicture: itemsList[item].serviceProfilePicture,

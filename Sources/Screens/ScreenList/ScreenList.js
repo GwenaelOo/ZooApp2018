@@ -14,6 +14,8 @@ import { TextTool } from '../../Theme/style';
 import List from './List';
 import { config } from '../../Config/Config'
 
+import * as firebase from 'firebase';
+
 const rawData = require('../../Assets/data.json');
 const localData = rawData[config.zooId]
 
@@ -27,62 +29,132 @@ class ScreenList extends React.Component {
         };
     }
 
-    fetchEventsRemoteData() {
-        var ref = firebase.database().ref('speciesData/');
-        ref.once('value')
-
-            .then(result => this.setState({
-                remoteData: result.val()
-            }))
-            .then(result => this.mergeRemoteAndLocalData(this.state.remoteData));
+    defineDataType(dataListName) {
+        console.log('je suis dans define')
+        switch (dataListName) {
+            case 'animationsData':
+                return ('animation')
+                break;
+            case 'eventsData':
+                return ('event')
+                break;
+            case 'servicesData':
+                return ('service')
+                break;
+            default:
+                break;
+        }
     }
 
-    mergeRemoteAndLocalData = (remoteData) => {
-        this.setState({
-            speciesList: remoteData
-        })
+
+    mergeRemoteAndLocalData = (remoteData, dataListName) => {
+
+        let itemType = this.defineDataType(dataListName)
+
+
+        for (let item in remoteData) {
+
+            let objectItemType = {
+                remote: 'remoteData[item]' + '.' + itemType + 'Name',
+                local: 'this.state.localDataList[item]' + '.' + itemType + 'Name',
+                itemId: itemType + 'Id',
+            }
+
+            let remoteDataVersion = remoteData[item].dataVersion
+            let localDataVersion = this.state.localDataList[item].dataVersion
+
+            console.log('remote data version de ' + eval(objectItemType.remote) + ' ' + remoteDataVersion)
+            console.log('local data version de ' + eval(objectItemType.local) + ' ' + localDataVersion)
+
+            if (remoteDataVersion > localDataVersion) {
+                console.log('mise à jour')
+
+                let newList = this.state.localDataList
+
+                switch (itemType) {
+                    case 'animation':
+
+                        newList[item].animationId = [remoteData[item].animationId].toString()
+                        newList[item].animationName = [remoteData[item].animationName].toString()
+                        newList[item].animationPhotoProfil = [remoteData[item].animationPhotoProfil].toString()
+
+                        break;
+                    case 'event':
+
+                        newList[item].eventId = [remoteData[item].eventId].toString()
+                        newList[item].eventName = [remoteData[item].eventName].toString()
+                        newList[item].eventPhotoProfil = [remoteData[item].eventPhotoProfil].toString()
+
+                        break;
+                    case 'service':
+
+                        newList[item].serviceId = [remoteData[item].serviceId].toString()
+                        newList[item].serviceName = [remoteData[item].serviceName].toString()
+                        newList[item].servicePhotoProfil = [remoteData[item].servicePhotoProfil].toString()
+
+                        break;
+                    default:
+                        break;
+                }
+
+                this.setState({
+                    localDataList: newList
+                })
+            }
+        }
     }
 
     defineScreenType = (screenType) => {
-
         switch (screenType) {
             case "event":
                 this.setState({
-                    dataList: localData.eventsData,
+                    localDataList: localData.eventsData,
                 })
+                this.fetchRemoteData('eventsData')
                 break;
 
             case "animation":
 
                 this.setState({
-                    dataList: localData.animationsData,
+                    localDataList: localData.animationsData,
                 })
+                this.fetchRemoteData('animationsData')
                 break;
 
             case "service":
 
                 this.setState({
-                    dataList: localData.servicesData,
+                    localDataList: localData.servicesData,
                 })
+                this.fetchRemoteData('servicesData')
                 break;
             default:
-                console.log('je suis dans defaults')
-
                 break;
         }
     }
 
+    fetchRemoteData(dataListName) {
+
+        var ref = firebase.database().ref(config.zooId + '/' + dataListName + '/');
+        ref.once('value')
+            .then(result => this.setState({
+                remoteData: result.val()
+            })
+            )
+            .then(result => this.mergeRemoteAndLocalData(this.state.remoteData, dataListName));
+    }
+
     componentWillMount() {
         this.defineScreenType(this.state.screenType)
-        //this.fetchEventsRemoteData()
     }
+
     render() {
         return (
             <ScrollView>
                 <View style={styles.container}>
                 </View>
                 <View style={styles.container}>
-                    <List itemsList={this.state.dataList} screenType={this.state.screenType} />
+                    <List itemsList={this.state.localDataList} screenType={this.state.screenType} />
                 </View>
             </ScrollView>
         );
