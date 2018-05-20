@@ -17,9 +17,11 @@ import BlogPost from '../../Components/BlogPost/BlogPost';
 import Gallerie from '../../Components/Img/Gallerie/Gallerie';
 import AnimalListRoundItem from '../../Components/AnimalView/AnimalListRound/AnimalListRoundItem';
 import AnimalListRound from '../../Components/AnimalView/AnimalListRound/AnimalListRound';
-import {config} from '../../Config/Config'
+import { config } from '../../Config/Config'
 
 import * as firebase from 'firebase';
+
+let Placeholder = require('../../Assets/Common/Placeholder/Placeholder.png')
 
 const rawData = require('../../Assets/data.json');
 const localData = rawData[config.zooId]
@@ -43,32 +45,32 @@ class SpecieScreen extends React.Component {
             specieWeight: '',
             specieLifeExpectancy: '',
             specieFood: [],
-            specieProfilePicture: '',
-            speciePhoto1: 'https://www.thoiry.net/sites/thoiry.net/files/2018-02/grand%20sourir%20panda.jpg',
-            speciePhoto2: 'https://s3.eu-central-1.amazonaws.com/zooparc/assets/stars/panda_roux_1504.jpg',
-            speciePhoto3: 'https://img3.telestar.fr/var/telestar/storage/images/3/0/7/8/3078326/le-panda-roux-espece-danger-dans-doumentaire-petit-panda-himalaya-sur-chaine-arte_width1024.jpg',
-            speciePhoto4: 'https://www.thoiry.net/sites/thoiry.net/files/2018-02/panda%20roux%202.jpg',
+            specieProfilePicture: '../../Assets/Common/Placeholder/Placeholder.png',
             speciePhotos: {},
-            specieAnimals: {}
+            specieAnimals: {},
+            // Configuration de l'ecran
+            galleryDisplay: true,
+            animalsDisplay: false,
+            updated: false
         };
     }
 
     fetchSpecieRemoteData(itemId) {
 
-        let refId = itemId - 1
-
-        var ref = firebase.database().ref(config.zooId + 'speciesData/' + refId);
+        var ref = firebase.database().ref(config.zooId + '/speciesData/' + itemId);
         ref.once('value')
 
-            .then(result => this.setState({
-                remoteData: result.val()
-            }))
+            .then((snapshot) => {
+                this.setState({
+                    remoteData: snapshot.val()
+                })
 
-            .then(result => this.mergeRemoteAndLocalData(this.state.remoteData));
+            })
+            .then(() => this.mergeRemoteAndLocalData(this.state.remoteData));
     }
 
     mergeRemoteAndLocalData = (remoteData) => {
-        console.log('hey')
+        let test = 
         this.setState({
             specieId: remoteData.specieId,
             specieName: remoteData.specieName,
@@ -86,7 +88,10 @@ class SpecieScreen extends React.Component {
             specieProfilePicture: remoteData.specieProfilePicture,
             speciePhotos: remoteData.speciePhotos,
             specieAnimals: remoteData.specieAnimals,
+            updated: true
         })
+        console.log('photos apres mise a jour')
+        console.log(this.state.speciePhotos)
     }
 
     fetchSpecieLocalData(specieId) {
@@ -110,15 +115,15 @@ class SpecieScreen extends React.Component {
             specieProfilePicture: specieData.specieProfilePicture,
             speciePhotos: specieData.speciePhotos,
             specieAnimals: specieData.specieAnimals,
-
+            updated: true
         })
     }
 
     getOnlineDataVersion(itemId) {
 
-        let refId = itemId - 1
+        console.log(itemId)
 
-        var ref = firebase.database().ref(config.zooId + '/speciesData/' + refId);
+        var ref = firebase.database().ref(config.zooId + '/speciesData/' + itemId);
         ref.once('value')
 
             .then(result => {
@@ -133,7 +138,6 @@ class SpecieScreen extends React.Component {
     }
 
     shouldUpdate() {
-
         console.log('Local data version ', this.state.localDataVersion)
         console.log('Remote data version ', this.state.remoteDataVersion)
 
@@ -145,11 +149,11 @@ class SpecieScreen extends React.Component {
     }
 
     checkDataVersion(specieId) {
-
+        console.log(specieId)
         console.log('check data version for the specieId', specieId)
         // Recuperation de la dataversion local
         let specieData = localData.speciesData.find(item => item.specieId === specieId)
-        
+
         this.setState({
             localDataVersion: specieData.dataVersion
         })
@@ -157,6 +161,7 @@ class SpecieScreen extends React.Component {
     }
 
     checkItemLocation(specieId) {
+        console.log(specieId)
         let specieData = localData.speciesData.find(item => item.specieId === specieId)
         if (specieData == null) {
             console.log('data online')
@@ -166,6 +171,48 @@ class SpecieScreen extends React.Component {
             this.fetchSpecieLocalData(specieId)
             this.checkDataVersion(specieId)
         }
+    }
+
+    shouldComponentUpdate(nextProps, nextState) {
+        if (this.state.speciePhotos === nextState.speciePhotos) {
+            this.screenSetup()
+           
+            return true
+        }
+        if (this.state.animalsPhotos === nextState.animalsPhotos) {
+            this.screenSetup()
+       
+            return true
+        }
+    }
+
+    screenSetup() {
+        console.log('je suis dans screensetup')
+        if (this.state.updated === true) {
+            console.log('liste dans specie photo apres update')
+            console.log(this.state.speciePhotos)
+
+            if (typeof this.state.specieAnimals === 'object' && this.state.specieAnimals.length > 0) {
+                console.log('affichage des animaux')
+                this.setState({
+                    animalsDisplay: true
+                })
+            }
+           
+            if (typeof this.state.speciePhotos === 'object' && this.state.speciePhotos.length > 0) {
+                console.log('affichage de la gallery')
+                this.setState({
+                    galleryDisplay: true
+                })
+            }
+            
+            this.setState({
+                updated: false
+            })
+        }
+    }
+
+    componentWillMount(){
     }
 
     componentDidMount() {
@@ -192,18 +239,16 @@ class SpecieScreen extends React.Component {
 
                     <Text style={[TextTool.PARAGRAPH, { marginHorizontal: 20 }]}>
                         {this.state.specieDescription}
-                        {this.state.specieId}
                     </Text>
 
                     <BasicButton text="En savoir plus" width="150" />
 
-                    <LargeSeparator text="Gallerie" />
 
-                    <Gallerie photos={this.state.speciePhotos} />
+                    {this.state.galleryDisplay ? <LargeSeparator text="Gallerie"/> : null}
+                    {this.state.galleryDisplay ? <Gallerie photos={this.state.speciePhotos}/> : null}
 
-                    <LargeSeparator text="Nos animaux" />
-
-                    <AnimalListRound animalsOfThisSpecie={this.state.specieAnimals} />
+                    {this.state.animalsDisplay ? <LargeSeparator text="Nos animaux"/> : null}
+                    {this.state.animalsDisplay ? <AnimalListRound animalsOfThisSpecie={this.state.specieAnimals}/> : null}
 
                     <LargeSeparator text="Actualité de l'enclos" />
 
@@ -236,7 +281,6 @@ const styles = StyleSheet.create({
         justifyContent: "space-between",
         width: "100%",
         alignItems: "center",
-
     },
     AnimalsList: {
         display: "flex",
@@ -251,8 +295,10 @@ const styles = StyleSheet.create({
         justifyContent: "flex-start",
         width: "100%",
         alignItems: "center",
-
     },
+    hidden: {
+        display: "none"
+    }
 });
 
 export default SpecieScreen

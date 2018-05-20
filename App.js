@@ -9,6 +9,7 @@ import ScreenEvent from './Sources/Screens/ScreenEvent/ScreenEvent'
 import ScreenAnimation from './Sources/Screens/ScreenAnimation/ScreenAnimation'
 import ScreenService from './Sources/Screens/ScreenService/ScreenService'
 import ScreenSpecie from './Sources/Screens/ScreenSpecie/ScreenSpecie'
+import ScreenDonation from './Sources/Screens/ScreenDonation/ScreenDonation'
 import ModalScreen from './Sources/Screens/Modal/Modal';
 
 import * as firebase from 'firebase';
@@ -74,8 +75,8 @@ class HomeScreen extends React.Component {
           }}
         />
         <Button
-          onPress={() => this.props.navigation.navigate('MyModal')}
-          title="Info"
+          onPress={() => this.props.navigation.navigate('ScreenDonation')}
+          title="Donation"
         />
       </View>
     );
@@ -106,6 +107,9 @@ const Navigator = StackNavigator({
   },
   ScreenSpecie: {
     screen: ScreenSpecie
+  },
+  ScreenDonation: {
+    screen: ScreenDonation
   },
 },
   {

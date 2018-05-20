@@ -18,15 +18,14 @@ class Gallerie extends React.Component {
             };
             PhotoListToDisplay.push(PhotoData);
         }
-        return (
-            
-            <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
-                <View style={styles.SpecieGallery}>
-                    {
-                        PhotoListToDisplay.map(function (photoItem) { return <GalleryItem photo={photoItem} HandleSelectedItem={this.HandleSelected} />; }, this)
-                    }
-                </View>
-            </ScrollView>
+        return (   
+                <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
+                    <View style={styles.SpecieGallery}>
+                        {
+                            PhotoListToDisplay.map(function (photoItem) { return <GalleryItem photo={photoItem} HandleSelectedItem={this.HandleSelected} key={photoItem.photoId} />; }, this)
+                        }
+                    </View>
+                </ScrollView>
         );
     }
 }

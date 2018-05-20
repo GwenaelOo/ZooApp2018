@@ -24,7 +24,7 @@ class AnimalListRound extends React.Component {
         return (
             <View style={styles.AnimalsList}>
                 {
-                    animalsOfThisSpecieArray.map(function (animal) { return <AnimalListRoundItem animal={animal} />; })
+                    animalsOfThisSpecieArray.map(function (animal) { return <AnimalListRoundItem animal={animal} key={animal.animalId}/>; })
                 }
             </View>
 

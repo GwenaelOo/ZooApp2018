@@ -65,7 +65,7 @@ class List extends React.Component {
 
             <View style={styles.eventsList}>
                 {
-                    itemsListArray.map(function (item) { return <ListItem item={item} />; })
+                    itemsListArray.map(function (item) { return <ListItem item={item} key={item.itemId} />; })
                 }
             </View>
         );

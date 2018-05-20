@@ -51,7 +51,6 @@ class ScreenList extends React.Component {
 
         let itemType = this.defineDataType(dataListName)
 
-
         for (let item in remoteData) {
 
             let objectItemType = {
@@ -73,7 +72,6 @@ class ScreenList extends React.Component {
 
                 switch (itemType) {
                     case 'animation':
-
                         newList[item].animationId = [remoteData[item].animationId].toString()
                         newList[item].animationName = [remoteData[item].animationName].toString()
                         newList[item].animationPhotoProfil = [remoteData[item].animationPhotoProfil].toString()
@@ -100,6 +98,8 @@ class ScreenList extends React.Component {
                 this.setState({
                     localDataList: newList
                 })
+                console.log('verification photoprofil')
+                console.log(localDataList[item].servicePhotoProfil)
             }
         }
     }

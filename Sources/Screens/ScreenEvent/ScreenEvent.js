@@ -13,6 +13,7 @@ import HeartIcon from '../../Icons/Heart/HeartIcon';
 import { TextTool } from '../../Theme/style';
 import { config } from '../../Config/Config';
 import * as firebase from 'firebase';
+import Gallerie from '../../Components/Img/Gallerie/Gallerie';
 
 const rawData = require('../../Assets/data.json');
 const localData = rawData[config.zooId]
@@ -31,11 +32,12 @@ class ScreenEvent extends React.Component {
     fetchEventLocalData(EventId) {
 
         let eventData = localData.eventsData.find(item => item.eventId === EventId)
-       
+
         this.setState({
             eventId: eventData.eventId,
             eventName: eventData.eventName,
-    
+            eventDescription: eventData.eventDescription,
+            eventPhotos: eventData.eventPhotos
         })
     }
 
@@ -48,10 +50,11 @@ class ScreenEvent extends React.Component {
 
             .then(result => {
                 let eventRemoteData = result.val()
-               
+
                 this.setState({
                     eventId: eventRemoteData.eventId,
                     eventName: eventRemoteData.eventName,
+                    eventName: eventRemoteData.eventDescription,
                 })
             })
     }
@@ -59,7 +62,7 @@ class ScreenEvent extends React.Component {
     getOnlineDataVersion(itemId) {
 
         let refId = itemId - 1
-        
+
         var ref = firebase.database().ref(config.zooId + '/eventsData/' + refId);
         ref.once('value')
 
@@ -91,7 +94,7 @@ class ScreenEvent extends React.Component {
         console.log('check data version for the eventId', EventId)
         // Recuperation de la dataversion local
         let eventData = localData.eventsData.find(item => item.eventId === EventId)
-        
+
         this.setState({
             localDataVersion: eventData.dataVersion
         })
@@ -109,7 +112,7 @@ class ScreenEvent extends React.Component {
             this.checkDataVersion(EventId)
         }
     }
-    
+
     componentDidMount() {
         this.checkItemLocation(this.props.navigation.state.params.itemId)
     }
@@ -124,9 +127,20 @@ class ScreenEvent extends React.Component {
                             style={{ width: this.state.width, height: (this.state.height / 2.5) }}
                             source={{ uri: 'https://upload.wikimedia.org/wikipedia/commons/1/1a/Face_of_a_red_panda_%28Ailurus_fulgens%29_-_20080702.jpg' }}
                         />
-                        <Text style={[TextTool.PARAGRAPH, { marginHorizontal: 20 }]}>
-                      {this.state.eventName}
-                    </Text>
+                        <View style={[TextTool.PARAGRAPH_CONTAINER, { width: this.state.width }]}>
+                            <Text style={[TextTool.PARAGRAPH_LIGHTTITLE, { marginHorizontal: 20, marginTop: 10 }]}>
+                                Evenement
+                             </Text>
+                            <Text style={[TextTool.PARAGRAPH_TITLE, { marginHorizontal: 20, marginTop: 10 }]}>
+                                {this.state.eventName}
+                            </Text>
+                            <Text style={[TextTool.PARAGRAPH, { marginHorizontal: 20, marginTop: 10 }]}>
+                                {this.state.eventDescription}
+                            </Text>
+
+                            <Gallerie photos={this.state.eventPhotos} />
+
+                        </View>
                     </View>
                 </View>
             </ScrollView>

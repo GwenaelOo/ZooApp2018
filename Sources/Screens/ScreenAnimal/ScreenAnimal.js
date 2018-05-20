@@ -59,7 +59,7 @@ class ScreenAnimal extends React.Component {
 
             .then(result => {
                 let remoteData = result.val()
-              
+
                 let animalRemoteData = remoteData.specieAnimals.find(item => item.animalId === animalId)
 
                 console.log(animalRemoteData.animalName)
@@ -87,7 +87,7 @@ class ScreenAnimal extends React.Component {
 
             .then(result => {
 
-               
+
                 let remoteData = result.val()
                 let animalRemoteData = remoteData.specieAnimals.find(item => item.animalId === animalId)
 
@@ -117,8 +117,9 @@ class ScreenAnimal extends React.Component {
 
         console.log('check data version for the specieId', specieId)
         // Recuperation de la dataversion local
-        let specieData = localData.speciesData.find(item => item.specieId === specieId)
-        let animalData = specieData.specieAnimals.find(item => item.animalId === animalId)
+        let specieData = localData.speciesData[specieId - 1]
+
+        let animalData = specieData.specieAnimals[0].find(item => item.animalId === animalId)
 
         console.log(animalData)
 
@@ -128,16 +129,23 @@ class ScreenAnimal extends React.Component {
             animalId: animalId,
         })
 
-       
+
         this.getOnlineDataVersion(specieId, animalId)
-    }
+     }
 
 
     checkItemLocation(specieId, animalId) {
-        let specieData = localData.speciesData.find(item => item.specieId === specieId)
-        let animalData = specieData.specieAnimals.find(item => item.animalId === animalId)
 
-        console.log(specieId, animalId)
+        //let specieData = localData.speciesData.find(item => item.specieId === specieId)
+        let specieData = localData.speciesData[specieId - 1]
+        //let animalData = specieData.specieAnimals[animalId]
+
+        for (let index = 0; index < 30; index++) {
+            console.log('top')
+        }
+
+        let animalData = specieData.specieAnimals[0].find(item => item.animalId === animalId)
+        
         if (specieData == null) {
             console.log('data online')
             this.fetchAnimalRemoteData(specieId, animalId)
@@ -149,10 +157,9 @@ class ScreenAnimal extends React.Component {
     }
 
     componentDidMount() {
-        this.checkItemLocation(this.props.navigation.state.params.specieId, this.props.navigation.state.params.animalId)
-        
-    }
+       this.checkItemLocation(this.props.navigation.state.params.specieId, this.props.navigation.state.params.animalId)
 
+    }
 
     render() {
         return (
@@ -185,10 +192,7 @@ class ScreenAnimal extends React.Component {
                                     <Title text="4" size="medium-noMargin" />
                                     <LightTitle text="enfants" />
                                 </View>
-                                <View style={{ justifyContent: "center", alignItems: "center" }}>
-                                    <Title text="Animal ID" size="medium-noMargin" />
-                                    <LightTitle text={this.props.navigation.state.params.itemId} />
-                                </View>
+
                             </View>
                         </View>
 
@@ -199,8 +203,9 @@ class ScreenAnimal extends React.Component {
                     <Text style={[TextTool.PARAGRAPH, { marginHorizontal: 20 }]}>
                         {this.state.animalDescription}
                     </Text>
-
-                    <BasicButton text="En savoir plus" width="150" />
+                  
+                        <BasicButton text="En savoir plus" width="150" />
+                        <BasicButton text="Faire un don" width="150" />
 
                     <LargeSeparator text="Gallerie" />
 
