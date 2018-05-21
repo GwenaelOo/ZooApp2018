@@ -49,7 +49,7 @@ class SpecieScreen extends React.Component {
             speciePhotos: {},
             specieAnimals: {},
             // Configuration de l'ecran
-            galleryDisplay: true,
+            galleryDisplay: false,
             animalsDisplay: false,
             updated: false
         };
@@ -86,12 +86,21 @@ class SpecieScreen extends React.Component {
             specieLifeExpectancy: remoteData.specieLifeExpectancy,
             specieFood: remoteData.specieFood,
             specieProfilePicture: remoteData.specieProfilePicture,
-            speciePhotos: remoteData.speciePhotos,
-            specieAnimals: remoteData.specieAnimals,
             updated: true
         })
-        console.log('photos apres mise a jour')
-        console.log(this.state.speciePhotos)
+        if (remoteData.speciePhotos.length > 0)  {
+            this.setState({
+                speciePhotos: remoteData.speciePhotos,
+                galleryDisplay: true
+            })
+        }
+        if (remoteData.specieAnimals.length > 0)  {
+            this.setState({
+                specieAnimals: remoteData.specieAnimals,
+                animalsDisplay: true
+            })
+        }
+       
     }
 
     fetchSpecieLocalData(specieId) {
@@ -113,10 +122,20 @@ class SpecieScreen extends React.Component {
             specieLifeExpectancy: specieData.specieLifeExpectancy,
             specieFood: specieData.specieFood,
             specieProfilePicture: specieData.specieProfilePicture,
-            speciePhotos: specieData.speciePhotos,
-            specieAnimals: specieData.specieAnimals,
             updated: true
         })
+        if (specieData.speciePhotos.length > 0)  {
+            this.setState({
+                speciePhotos: specieData.speciePhotos,
+                galleryDisplay: true
+            })
+        } 
+        if (specieData.specieAnimals.length > 0)  {
+            this.setState({
+                specieAnimals: specieData.specieAnimals,
+                animalsDisplay: true
+            })
+        }
     }
 
     getOnlineDataVersion(itemId) {
@@ -173,21 +192,10 @@ class SpecieScreen extends React.Component {
         }
     }
 
-    shouldComponentUpdate(nextProps, nextState) {
-        if (this.state.speciePhotos === nextState.speciePhotos) {
-            this.screenSetup()
-           
-            return true
-        }
-        if (this.state.animalsPhotos === nextState.animalsPhotos) {
-            this.screenSetup()
-       
-            return true
-        }
-    }
-
     screenSetup() {
         console.log('je suis dans screensetup')
+        console.log(this.state.updated)
+
         if (this.state.updated === true) {
             console.log('liste dans specie photo apres update')
             console.log(this.state.speciePhotos)
@@ -216,6 +224,7 @@ class SpecieScreen extends React.Component {
     }
 
     componentDidMount() {
+        const self = this;
         this.checkItemLocation(this.props.navigation.state.params.itemId)
     }
 

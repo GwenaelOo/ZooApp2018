@@ -20,6 +20,7 @@
     "preset": "jest-expo"
   },
   "dependencies": {
+    "autobind-decorator": "^2.1.0",
     "expo": "^27.0.1",
     "firebase": "^4.13.1",
     "firebase-admin": "^5.12.0",

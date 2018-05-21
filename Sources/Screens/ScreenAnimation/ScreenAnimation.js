@@ -13,6 +13,7 @@ import HeartIcon from '../../Icons/Heart/HeartIcon';
 import { TextTool } from '../../Theme/style';
 import { config } from '../../Config/Config';
 import * as firebase from 'firebase';
+import Gallerie from '../../Components/Img/Gallerie/Gallerie';
 
 const rawData = require('../../Assets/data.json');
 const localData = rawData[config.zooId]
@@ -24,20 +25,31 @@ class ScreenAnimation extends React.Component {
             width: Dimensions.get('window').width,
             height: Dimensions.get('window').height,
             animationId: 0,
-            animationName: ''
+            animationName: '',
+            animationDescription: '',
+            animationPhotos: [],
+            galleryDisplay: false,
+            updated: false,
         };
     }
 
-    
+
     fetchAnimationLocalData(AnimationId) {
 
         let animationData = localData.animationsData.find(item => item.animationId === AnimationId)
-       
         this.setState({
             animationId: animationData.animationId,
             animationName: animationData.animationName,
-    
+            animationDescription: animationData.animationDescription,
+            updated: true
+
         })
+        if (animationData.animationPhotos.length > 0)  {
+            this.setState({
+                animationPhotos: animationData.animationPhotos,
+                galleryDisplay: true
+            })
+        }
     }
 
     fetchAnimationRemoteData(animationId) {
@@ -47,23 +59,28 @@ class ScreenAnimation extends React.Component {
 
             .then(result => {
                 let animationRemoteData = result.val()
-                console.log(animationRemoteData)
-               
                 this.setState({
                     animationId: animationRemoteData.animationId,
                     animationName: animationRemoteData.animationName,
                     animationProfilePicture: animationRemoteData.animationProfilePicture,
+                    animationDescription: animationRemoteData.animationDescription,
+                    animationPhotos: animationRemoteData.animationPhotos,
+                    updated: true
                 })
+
+                if (animationRemoteData.animationPhotos.length > 0)  {
+                    this.setState({
+                        animationPhotos: animationRemoteData.animationPhotos,
+                        galleryDisplay: true
+                    })
+                }
             })
     }
 
     getOnlineDataVersion(itemId) {
 
-        let refId = itemId - 1
-        
-        var ref = firebase.database().ref(config.zooId + '/animationsData/' + refId);
+        var ref = firebase.database().ref(config.zooId + '/animationsData/' + itemId);
         ref.once('value')
-
             .then(result => {
                 let remoteData = result.val()
                 this.setState({
@@ -77,9 +94,6 @@ class ScreenAnimation extends React.Component {
 
     shouldUpdate(itemId) {
 
-        console.log('Local data version ', this.state.localDataVersion)
-        console.log('Remote data version ', this.state.remoteDataVersion)
-
         if (this.state.remoteDataVersion > this.state.localDataVersion) {
             console.log('Mise à jour des données')
             this.fetchAnimationRemoteData(itemId)
@@ -89,10 +103,9 @@ class ScreenAnimation extends React.Component {
 
     checkDataVersion(AnimationId) {
 
-        console.log('check data version for the animationId', AnimationId)
         // Recuperation de la dataversion local
         let animationData = localData.animationsData.find(item => item.animationId === AnimationId)
-        
+
         this.setState({
             localDataVersion: animationData.dataVersion
         })
@@ -110,7 +123,7 @@ class ScreenAnimation extends React.Component {
             this.checkDataVersion(AnimationId)
         }
     }
-    
+
     componentDidMount() {
         this.checkItemLocation(this.props.navigation.state.params.itemId)
     }
@@ -122,11 +135,23 @@ class ScreenAnimation extends React.Component {
                     <View style={styles.SpecieIntro}>
                         <Image
                             style={{ width: this.state.width, height: (this.state.height / 2.5) }}
-                            source={{ uri: this.state.animationProfilePicture}}
+                            source={{ uri: this.state.animationProfilePicture }}
                         />
-                        <Text style={[TextTool.PARAGRAPH, { marginHorizontal: 20 }]}>
-                      {this.state.animationName}
-                    </Text>
+                        <View style={[TextTool.PARAGRAPH_CONTAINER, { width: this.state.width }]}>
+                            <Text style={[TextTool.PARAGRAPH_LIGHTTITLE, { marginHorizontal: 20, marginTop: 10 }]}>
+                                Animation
+                             </Text>
+                            <Text style={[TextTool.PARAGRAPH_TITLE, { marginHorizontal: 20, marginTop: 10 }]}>
+                                {this.state.animationName}
+                            </Text>
+                            <Text style={[TextTool.PARAGRAPH, { marginHorizontal: 20, marginTop: 10 }]}>
+                                {this.state.animationDescription}
+                            </Text>
+
+                            {this.state.galleryDisplay ? <LargeSeparator text="Gallerie" /> : null}
+                            {this.state.galleryDisplay ? <Gallerie photos={this.state.animationPhotos} /> : null}
+
+                        </View>
                     </View>
                 </View>
             </ScrollView>

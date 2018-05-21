@@ -45,9 +45,13 @@ class ScreenAnimal extends React.Component {
         this.setState({
             animalName: animalData.animalName,
             animalPhotoProfil: animalData.animalPhotoProfil,
-            animalPhotos: animalData.animalPhotos,
-
         })
+        if (animalData.animalPhotos.length > 0)  {
+            this.setState({
+                animalPhotos: animalData.animalPhotos,
+                galleryDisplay: true
+            })
+        }
     }
 
     fetchSpecieRemoteData(specieId, animalId) {
@@ -73,8 +77,13 @@ class ScreenAnimal extends React.Component {
                     animalWeight: animalRemoteData.animalWeight,
                     animalFood: animalRemoteData.animalFood,
                     animalPhotoProfil: animalRemoteData.animalPhotoProfil,
-                    animalPhotos: animalRemoteData.animalPhotos,
                 })
+                if (animalRemoteData.animalPhotos.length > 0)  {
+                    this.setState({
+                        animalPhotos: animalRemoteData.animalPhotos,
+                        galleryDisplay: true
+                    })
+                }
             })
     }
 
@@ -140,10 +149,6 @@ class ScreenAnimal extends React.Component {
         let specieData = localData.speciesData[specieId - 1]
         //let animalData = specieData.specieAnimals[animalId]
 
-        for (let index = 0; index < 30; index++) {
-            console.log('top')
-        }
-
         let animalData = specieData.specieAnimals[0].find(item => item.animalId === animalId)
         
         if (specieData == null) {
@@ -207,9 +212,8 @@ class ScreenAnimal extends React.Component {
                         <BasicButton text="En savoir plus" width="150" />
                         <BasicButton text="Faire un don" width="150" />
 
-                    <LargeSeparator text="Gallerie" />
-
-                    <Gallerie photos={this.state.animalPhotos} />
+                    {this.state.galleryDisplay ? <LargeSeparator text="Gallerie"/> : null}
+                    {this.state.galleryDisplay ? <Gallerie photos={this.state.animalPhotos}/> : null}
 
                 </View>
             </ScrollView>

@@ -13,6 +13,7 @@ import HeartIcon from '../../Icons/Heart/HeartIcon';
 import { TextTool } from '../../Theme/style';
 import { config } from '../../Config/Config';
 import * as firebase from 'firebase';
+import Gallerie from '../../Components/Img/Gallerie/Gallerie';
 
 const rawData = require('../../Assets/data.json');
 const localData = rawData[config.zooId]
@@ -24,7 +25,12 @@ class ScreenService extends React.Component {
             width: Dimensions.get('window').width,
             height: Dimensions.get('window').height,
             serviceId: 0,
-            serviceName: ''
+            serviceDescription:'',
+            servicePhotos:[],
+            serviceProfilePicture:'',
+            serviceName: '',
+            galleryDisplay: false,
+            updated: false
         };
     }
 
@@ -36,9 +42,15 @@ class ScreenService extends React.Component {
             serviceId: serviceData.serviceId,
             serviceName: serviceData.serviceName,
             serviceProfilePicture: serviceData.serviceProfilePicture,
-            servicePhotos: servicePhotos
-    
+            serviceDescription: serviceData.serviceDescription,
+            updated: true
         })
+        if(serviceData.servicePhotos.length > 0 ) {
+            this.setState({
+                servicePhotos: serviceData.servicePhotos,
+                galleryDisplay: true
+            })
+        }
     }
 
     fetchServiceRemoteData(ServiceId) {
@@ -55,10 +67,18 @@ class ScreenService extends React.Component {
                
                 this.setState({
                     serviceId: serviceRemoteData.serviceId,
+                    serviceDescription: serviceRemoteData.serviceDescription,
                     serviceName: serviceRemoteData.serviceName,
-                    serviceProfilePicture: serviceData.serviceProfilePicture,
-                    servicePhotos: servicePhotos
+                    serviceProfilePicture: serviceRemoteData.serviceProfilePicture,
+                    updated: true
                 })
+
+                if(serviceRemoteData.servicePhotos.length > 0 ) {
+                    this.setState({
+                        servicePhotos: serviceRemoteData.servicePhotos,
+                        galleryDisplay: true
+                    })
+                }
             })
     }
 
@@ -122,19 +142,32 @@ class ScreenService extends React.Component {
 
     render() {
         return (
+    
             <ScrollView>
-                <View style={styles.container}>
-                    <View style={styles.SpecieIntro}>
-                        <Image
-                            style={{ width: this.state.width, height: (this.state.height / 2.5) }}
-                            source={{ uri: this.state.serviceProfilePicture }}
-                        />
-                        <Text style={[TextTool.PARAGRAPH, { marginHorizontal: 20 }]}>
-                      {this.state.serviceName}
-                    </Text>
+            <View style={styles.container}>
+                <View style={styles.SpecieIntro}>
+                    <Image
+                        style={{ width: this.state.width, height: (this.state.height / 2.5) }}
+                        source={{ uri: this.state.serviceProfilePicture }}
+                    />
+                    <View style={[TextTool.PARAGRAPH_CONTAINER, { width: this.state.width }]}>
+                        <Text style={[TextTool.PARAGRAPH_LIGHTTITLE, { marginHorizontal: 20, marginTop: 10 }]}>
+                            Service type
+                         </Text>
+                        <Text style={[TextTool.PARAGRAPH_TITLE, { marginHorizontal: 20, marginTop: 10 }]}>
+                            {this.state.serviceName}
+                        </Text>
+                        <Text style={[TextTool.PARAGRAPH, { marginHorizontal: 20, marginTop: 10 }]}>
+                            {this.state.serviceDescription}
+                        </Text>
+
+                         {this.state.galleryDisplay ? <LargeSeparator text="Gallerie" /> : null}
+                         {this.state.galleryDisplay ? <Gallerie photos={this.state.servicePhotos} /> : null}
+
                     </View>
                 </View>
-            </ScrollView>
+            </View>
+        </ScrollView>
         );
     }
 }

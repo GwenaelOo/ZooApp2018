@@ -37,9 +37,14 @@ class ScreenEvent extends React.Component {
             eventId: eventData.eventId,
             eventName: eventData.eventName,
             eventDescription: eventData.eventDescription,
-            eventPhotos: eventData.eventPhotos,
             eventProfilePicture: eventData.eventProfilePicture,
         })
+        if (eventData.eventPhotos.length > 0)  {
+            this.setState({
+                eventPhotos: eventData.eventPhotos,
+                galleryDisplay: true
+            })
+        }
     }
 
     fetchEventRemoteData(eventId) {
@@ -54,8 +59,14 @@ class ScreenEvent extends React.Component {
                     eventId: eventRemoteData.eventId,
                     eventName: eventRemoteData.eventName,
                     eventDescription: eventRemoteData.eventDescription,
-                    eventProfilePicture: eventRemoteData.eventProfilePicture
+                    eventProfilePicture: eventRemoteData.eventProfilePicture,
                 })
+                if (eventRemoteData.eventPhotos.length > 0)  {
+                    this.setState({
+                        eventPhotos: eventRemoteData.eventPhotos,
+                        galleryDisplay: true
+                    })
+                }
             })
     }
 
@@ -138,7 +149,8 @@ class ScreenEvent extends React.Component {
                                 {this.state.eventDescription}
                             </Text>
 
-                            <Gallerie photos={this.state.eventPhotos} />
+                            {this.state.galleryDisplay ? <LargeSeparator text="Gallerie" /> : null}
+                            {this.state.galleryDisplay ? <Gallerie photos={this.state.eventPhotos} /> : null}
 
                         </View>
                     </View>
