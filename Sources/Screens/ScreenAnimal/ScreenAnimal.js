@@ -126,7 +126,7 @@ class ScreenAnimal extends React.Component {
 
         console.log('check data version for the specieId', specieId)
         // Recuperation de la dataversion local
-        let specieData = localData.speciesData[specieId - 1]
+  
 
         let animalData = specieData.specieAnimals[0].find(item => item.animalId === animalId)
 
