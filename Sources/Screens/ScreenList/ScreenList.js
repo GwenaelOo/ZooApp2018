@@ -16,6 +16,8 @@ import { config } from '../../Config/Config'
 
 import * as firebase from 'firebase';
 
+var _ = require('lodash');
+
 const rawData = require('../../Assets/data.json');
 const localData = rawData[config.zooId]
 
@@ -52,57 +54,71 @@ class ScreenList extends React.Component {
         let itemType = this.defineDataType(dataListName)
 
         for (let item in remoteData) {
+            console.log('je compare')
+            console.log((_.has(this.state.localDataList, item)))
 
-            let objectItemType = {
-                remote: 'remoteData[item]' + '.' + itemType + 'Name',
-                local: 'this.state.localDataList[item]' + '.' + itemType + 'Name',
-                itemId: itemType + 'Id',
-            }
+            let newList = this.state.localDataList
 
-            let remoteDataVersion = remoteData[item].dataVersion
-            let localDataVersion = this.state.localDataList[item].dataVersion
+            if (_.has(this.state.localDataList, item)) {
 
-            console.log('remote data version de ' + eval(objectItemType.remote) + ' ' + remoteDataVersion)
-            console.log('local data version de ' + eval(objectItemType.local) + ' ' + localDataVersion)
-
-            if (remoteDataVersion > localDataVersion) {
-                console.log('mise à jour')
-
-                let newList = this.state.localDataList
-
-                switch (itemType) {
-                    case 'animation':
-                        newList[item].animationId = [remoteData[item].animationId].toString()
-                        newList[item].animationName = [remoteData[item].animationName].toString()
-                        newList[item].animationPhotoProfil = [remoteData[item].animationPhotoProfil].toString()
-
-                        break;
-                    case 'event':
-
-                        newList[item].eventId = [remoteData[item].eventId].toString()
-                        newList[item].eventName = [remoteData[item].eventName].toString()
-                        newList[item].eventPhotoProfil = [remoteData[item].eventPhotoProfil].toString()
-
-                        break;
-                    case 'service':
-
-                        newList[item].serviceId = [remoteData[item].serviceId].toString()
-                        newList[item].serviceName = [remoteData[item].serviceName].toString()
-                        newList[item].servicePhotoProfil = [remoteData[item].servicePhotoProfil].toString()
-
-                        break;
-                    default:
-                        break;
+                let objectItemType = {
+                    remote: 'remoteData[item]' + '.' + itemType + 'Name',
+                    local: 'this.state.localDataList[item]' + '.' + itemType + 'Name',
+                    itemId: itemType + 'Id',
                 }
 
-                this.setState({
-                    localDataList: newList
-                })
-                console.log('verification photoprofil')
-                console.log(localDataList[item].servicePhotoProfil)
+                let remoteDataVersion = remoteData[item].dataVersion
+                let localDataVersion = this.state.localDataList[item].dataVersion
+
+                console.log('remote data version de ' + eval(objectItemType.remote) + ' ' + remoteDataVersion)
+                console.log('local data version de ' + eval(objectItemType.local) + ' ' + localDataVersion)
+
+                if (remoteDataVersion > localDataVersion) {
+                    console.log('mise à jour')
+
+                    switch (itemType) {
+                        case 'animation':
+                            newList[item].animationId = [remoteData[item].animationId].toString()
+                            newList[item].animationName = [remoteData[item].animationName].toString()
+                            newList[item].animationPhotoProfil = [remoteData[item].animationPhotoProfil].toString()
+
+                            break;
+                        case 'event':
+
+                            newList[item].eventId = [remoteData[item].eventId].toString()
+                            newList[item].eventName = [remoteData[item].eventName].toString()
+                            newList[item].eventPhotoProfil = [remoteData[item].eventPhotoProfil].toString()
+
+                            break;
+                        case 'service':
+
+                            newList[item].serviceId = [remoteData[item].serviceId].toString()
+                            newList[item].serviceName = [remoteData[item].serviceName].toString()
+                            newList[item].servicePhotoProfil = [remoteData[item].servicePhotoProfil].toString()
+
+                            break;
+                        default:
+                            break;
+                    }
+                }
+
+
+                console.log('mise à jour terminée ')
+            } else {
+                
+                console.log('c est item')
+                console.log(remoteData[item])
+                let oldList = this.state.localDataList
+                newList = _.concat(oldList, remoteData[item]);
             }
+
+            this.setState({
+                localDataList: newList
+            })
         }
     }
+
+
 
     defineScreenType = (screenType) => {
         switch (screenType) {

@@ -37,15 +37,14 @@ class ScreenEvent extends React.Component {
             eventId: eventData.eventId,
             eventName: eventData.eventName,
             eventDescription: eventData.eventDescription,
-            eventPhotos: eventData.eventPhotos
+            eventPhotos: eventData.eventPhotos,
+            eventProfilePicture: eventData.eventProfilePicture,
         })
     }
 
     fetchEventRemoteData(eventId) {
 
-        refId = eventId - 1
-
-        var ref = firebase.database().ref(config.zooId + '/eventsData/' + refId);
+        var ref = firebase.database().ref(config.zooId + '/eventsData/' + eventId);
         ref.once('value')
 
             .then(result => {
@@ -54,7 +53,8 @@ class ScreenEvent extends React.Component {
                 this.setState({
                     eventId: eventRemoteData.eventId,
                     eventName: eventRemoteData.eventName,
-                    eventName: eventRemoteData.eventDescription,
+                    eventDescription: eventRemoteData.eventDescription,
+                    eventProfilePicture: eventRemoteData.eventProfilePicture
                 })
             })
     }
@@ -125,7 +125,7 @@ class ScreenEvent extends React.Component {
                     <View style={styles.SpecieIntro}>
                         <Image
                             style={{ width: this.state.width, height: (this.state.height / 2.5) }}
-                            source={{ uri: 'https://upload.wikimedia.org/wikipedia/commons/1/1a/Face_of_a_red_panda_%28Ailurus_fulgens%29_-_20080702.jpg' }}
+                            source={{ uri: this.state.eventProfilePicture }}
                         />
                         <View style={[TextTool.PARAGRAPH_CONTAINER, { width: this.state.width }]}>
                             <Text style={[TextTool.PARAGRAPH_LIGHTTITLE, { marginHorizontal: 20, marginTop: 10 }]}>

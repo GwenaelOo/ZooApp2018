@@ -42,17 +42,17 @@ class ScreenAnimation extends React.Component {
 
     fetchAnimationRemoteData(animationId) {
 
-        refId = animationId - 1
-
-        var ref = firebase.database().ref(config.zooId + '/animationsData/' + refId);
+        var ref = firebase.database().ref(config.zooId + '/animationsData/' + animationId);
         ref.once('value')
 
             .then(result => {
                 let animationRemoteData = result.val()
+                console.log(animationRemoteData)
                
                 this.setState({
                     animationId: animationRemoteData.animationId,
                     animationName: animationRemoteData.animationName,
+                    animationProfilePicture: animationRemoteData.animationProfilePicture,
                 })
             })
     }
@@ -103,7 +103,7 @@ class ScreenAnimation extends React.Component {
         let animationData = localData.animationsData.find(item => item.animationId === AnimationId)
         if (animationData == null) {
             console.log('data online')
-            this.fetctAnimationRemoteData(AnimationId)
+            this.fetchAnimationRemoteData(AnimationId)
         } else {
             console.log('data local')
             this.fetchAnimationLocalData(AnimationId)
@@ -122,7 +122,7 @@ class ScreenAnimation extends React.Component {
                     <View style={styles.SpecieIntro}>
                         <Image
                             style={{ width: this.state.width, height: (this.state.height / 2.5) }}
-                            source={{ uri: 'https://upload.wikimedia.org/wikipedia/commons/1/1a/Face_of_a_red_panda_%28Ailurus_fulgens%29_-_20080702.jpg' }}
+                            source={{ uri: this.state.animationProfilePicture}}
                         />
                         <Text style={[TextTool.PARAGRAPH, { marginHorizontal: 20 }]}>
                       {this.state.animationName}

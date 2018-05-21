@@ -75,7 +75,6 @@ class SpecieScreen extends React.Component {
 
         let newList = _.concat(this.state.speciesList, remoteData[specie]);
         
-
         this.setState({
             speciesList: newList
         })

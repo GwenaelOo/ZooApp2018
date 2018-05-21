@@ -35,6 +35,8 @@ class ScreenService extends React.Component {
         this.setState({
             serviceId: serviceData.serviceId,
             serviceName: serviceData.serviceName,
+            serviceProfilePicture: serviceData.serviceProfilePicture,
+            servicePhotos: servicePhotos
     
         })
     }
@@ -54,6 +56,8 @@ class ScreenService extends React.Component {
                 this.setState({
                     serviceId: serviceRemoteData.serviceId,
                     serviceName: serviceRemoteData.serviceName,
+                    serviceProfilePicture: serviceData.serviceProfilePicture,
+                    servicePhotos: servicePhotos
                 })
             })
     }
@@ -123,7 +127,7 @@ class ScreenService extends React.Component {
                     <View style={styles.SpecieIntro}>
                         <Image
                             style={{ width: this.state.width, height: (this.state.height / 2.5) }}
-                            source={{ uri: 'https://upload.wikimedia.org/wikipedia/commons/1/1a/Face_of_a_red_panda_%28Ailurus_fulgens%29_-_20080702.jpg' }}
+                            source={{ uri: this.state.serviceProfilePicture }}
                         />
                         <Text style={[TextTool.PARAGRAPH, { marginHorizontal: 20 }]}>
                       {this.state.serviceName}
