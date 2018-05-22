@@ -18,7 +18,7 @@ class AnimalListRoundItem extends React.Component {
             }}>
             <View style={styles.AnimalItem}>
 
-                    <BigThumbnail uri={this.props.animal.animalPhotoProfil} />
+                    <BigThumbnail uri={this.props.animal.animalProfilePicture} />
                     <View style={{ marginLeft: 24 }}>
                         <Title text={this.props.animal.animalName} size="big" />
                         <LightTitle text={this.props.animal.animalSex + ' ' + this.props.animal.animalAge} size="big" />

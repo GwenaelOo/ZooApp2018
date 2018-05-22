@@ -12,7 +12,7 @@ class AnimalListRound extends React.Component {
         for (let animal in animalsOfThisSpecie) {
             let animalData = {
                 animalId: animalsOfThisSpecie[animal].animalId,
-                animalPhotoProfil: animalsOfThisSpecie[animal].animalPhotoProfil,
+                animalProfilePicture: animalsOfThisSpecie[animal].animalProfilePicture,
                 animalName: animalsOfThisSpecie[animal].animalName,
                 animalSex: animalsOfThisSpecie[animal].animalSex,
                 animalAge: animalsOfThisSpecie[animal].animalAge,
