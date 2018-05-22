@@ -29,13 +29,13 @@ class ScreenAnimal extends React.Component {
             width: Dimensions.get('window').width,
             height: Dimensions.get('window').height,
             animalId: '',
-            animalName: 'hop',
-            animalSpecieName: 'Panda Roux',
-            animalDescription: "Le Petit panda, Panda roux ou Panda éclatant (Ailurus fulgens) est un mammifère de la famille des Ailuridae. Il a un régime alimentaire omnivore, essentiellement végétarien, bien qu'appartenant à l'ordre des Carnivores comme les ratons laveurs ou les ours avec lesquels on l'a parfois classé avec le Panda géant.",
+            animalName: '',
+            animalSpecieName: '',
+            specieId: '',
+            animalBiography: '',
             animalAge: '',
-            animalWeight: '',
-            animalFood: [],
-            animalPhotoProfil: 'http://www.club-panda.fr/wp-content/uploads/2015/07/quizz-8.jpg',
+            animalSex: '',
+            animalPhotoProfil: '',
             animalPhotos: {},
         };
     }
@@ -44,6 +44,13 @@ class ScreenAnimal extends React.Component {
 
         this.setState({
             animalName: animalData.animalName,
+            animalId: animalData.animalId,
+            animalName: animalData.animalName,
+            animalSpecieName: animalData.animalSpecieName,
+            specieId: animalData.specieId,
+            animalBiography: animalData.animalBiography,
+            animalAge: animalData.animalAge,
+            animalSex: animalData.animalSex,
             animalPhotoProfil: animalData.animalPhotoProfil,
         })
         if (animalData.animalPhotos.length > 0)  {
@@ -54,29 +61,29 @@ class ScreenAnimal extends React.Component {
         }
     }
 
-    fetchSpecieRemoteData(specieId, animalId) {
+    fetchAnimalRemoteData(specieId, animalId) {
 
-        refId = specieId - 1
+        console.log(specieId)
 
-        var ref = firebase.database().ref(config.zooId + '/speciesData/' + refId);
+        var ref = firebase.database().ref(config.zooId + '/speciesData/' + specieId);
         ref.once('value')
 
             .then(result => {
                 let remoteData = result.val()
-
                 let animalRemoteData = remoteData.specieAnimals.find(item => item.animalId === animalId)
 
                 console.log(animalRemoteData.animalName)
 
                 this.setState({
+                    animalName: animalRemoteData.animalName,
                     animalId: animalRemoteData.animalId,
                     animalName: animalRemoteData.animalName,
                     animalSpecieName: animalRemoteData.animalSpecieName,
-                    animalDescription: animalRemoteData.animalDescription,
+                    specieId: animalRemoteData.specieId,
+                    animalBiography: animalRemoteData.animalBiography,
                     animalAge: animalRemoteData.animalAge,
-                    animalWeight: animalRemoteData.animalWeight,
-                    animalFood: animalRemoteData.animalFood,
-                    animalPhotoProfil: animalRemoteData.animalPhotoProfil,
+                    animalSex: animalRemoteData.animalSex,
+                    animalProfilePicture: animalRemoteData.animalProfilePicture,
                 })
                 if (animalRemoteData.animalPhotos.length > 0)  {
                     this.setState({
@@ -146,10 +153,16 @@ class ScreenAnimal extends React.Component {
     checkItemLocation(specieId, animalId) {
 
         //let specieData = localData.speciesData.find(item => item.specieId === specieId)
-        let specieData = localData.speciesData[specieId - 1]
         //let animalData = specieData.specieAnimals[animalId]
 
-        let animalData = specieData.specieAnimals[0].find(item => item.animalId === animalId)
+        //let specieData = localData.speciesData[specieId - 1]
+
+        console.log(specieId)
+
+        let specieData = localData.speciesData[specieId]
+
+        console.log('specie data')
+        console.log(specieData)
         
         if (specieData == null) {
             console.log('data online')
@@ -162,8 +175,10 @@ class ScreenAnimal extends React.Component {
     }
 
     componentDidMount() {
+        console.log('test props')
+        console.log(this.props.navigation.state.params.specieId)
        this.checkItemLocation(this.props.navigation.state.params.specieId, this.props.navigation.state.params.animalId)
-
+     
     }
 
     render() {
@@ -173,7 +188,7 @@ class ScreenAnimal extends React.Component {
                     <View style={styles.SpecieIntro}>
                         <Image
                             style={{ width: this.state.width, height: (this.state.height / 2.5) }}
-                            source={{ uri: this.state.animalPhotoProfil }}
+                            source={{ uri: this.state.animalProfilePicture }}
                         />
 
                         <View style={{ marginTop: 10 }}>
@@ -206,7 +221,7 @@ class ScreenAnimal extends React.Component {
                     <LargeSeparator text="Biographie" />
 
                     <Text style={[TextTool.PARAGRAPH, { marginHorizontal: 20 }]}>
-                        {this.state.animalDescription}
+                        {this.state.animalBiography}
                     </Text>
                   
                         <BasicButton text="En savoir plus" width="150" />

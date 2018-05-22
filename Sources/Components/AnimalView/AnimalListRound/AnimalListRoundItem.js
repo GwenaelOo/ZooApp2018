@@ -8,6 +8,9 @@ import { withNavigation } from 'react-navigation';
 
 class AnimalListRoundItem extends React.Component {
     render() {
+
+        console.log('specieId')
+        console.log(this.props.animal.specieId)
         return (
         <View>
             <TouchableOpacity onPress={() => {
