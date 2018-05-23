@@ -20,6 +20,7 @@ class ScreenEvent extends React.Component {
         this.state = {
             width: Dimensions.get('window').width,
             height: Dimensions.get('window').height,
+            donationUrl : this.props.navigation.state.params.donationUrl
            
         };
     }
@@ -39,14 +40,12 @@ class ScreenEvent extends React.Component {
     }
 
     
-
-
     render() {
         return (
             <ScrollView>
                 <View style={styles.container}>
                     <WebView 
-                    source={{uri:"https://www.helloasso.com/associations/groupement-de-reflexion-et-d-action-pour-l-animal/collectes/faites-un-don-pour-le-graal/widget"}}
+                    source={{uri: this.state.donationUrl}}
                     style={{width: this.state.width, height: this.state.height * 4}}
                    >     
                     </WebView>

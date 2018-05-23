@@ -17,6 +17,7 @@ import { TextTool } from '../../Theme/style';
 import Gallerie from '../../Components/Img/Gallerie/Gallerie';
 
 import * as firebase from 'firebase';
+import DonationButton from '../../Components/DonationButton/DonnationButton';
 
 
 const rawData = require('../../Assets/data.json');
@@ -37,6 +38,7 @@ class ScreenAnimal extends React.Component {
             animalSex: '',
             animalPhotoProfil: '',
             animalPhotos: {},
+            donationDisplay : true
         };
     }
 
@@ -225,7 +227,9 @@ class ScreenAnimal extends React.Component {
                     </Text>
                   
                         <BasicButton text="En savoir plus" width="150" />
-                        <BasicButton text="Faire un don" width="150" />
+                        
+                        {this.state.donationDisplay ? <DonationButton zooId={config.zooId} /> : null}
+                        
 
                     {this.state.galleryDisplay ? <LargeSeparator text="Gallerie"/> : null}
                     {this.state.galleryDisplay ? <Gallerie photos={this.state.animalPhotos}/> : null}
