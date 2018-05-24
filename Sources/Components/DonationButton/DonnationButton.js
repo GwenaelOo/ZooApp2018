@@ -22,9 +22,6 @@ class DonationButton extends React.Component {
                 })
             })
     }
-
-   
-
     componentDidMount() {
         this.getDonationURL(this.props.navigation.state.params.zooId)
 
@@ -32,12 +29,10 @@ class DonationButton extends React.Component {
     render() {
         return (
             <BasicButton text="Faire un don" width="150" onPress={() => {
-                this.props.navigation.navigate('ScreenList', {         
+                this.props.navigation.navigate('ScreenList', {
                     donationURL: this.state.donationURL
                 });
-              }} />
-
-              
+            }} />
         );
     }
 }
